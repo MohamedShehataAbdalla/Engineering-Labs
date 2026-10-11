@@ -28,7 +28,7 @@
 - [x] `btree-index` — Full Table Scan vs B-Tree Index Seek (logical reads، عمق الشجرة)
 - [x] `index-types` — Clustered vs Non-clustered vs Covering (Key Lookup، RID Lookup، INCLUDE)
 - [x] `execution-plan` — Execution Plan بالعين (tipping point، estimated vs actual)
-- [ ] `acid` — Transactions و ACID (Write-Ahead Log، crash و recovery)
+- [x] `acid` — Transactions و ACID (Write-Ahead Log، crash و recovery)
 - [ ] `isolation` — Isolation Levels: Dirty / Non-repeatable / Phantom (stepped)
 - [ ] `locking` — Locking و Blocking و Deadlock (S/X/U، victim، 1205)
 - [ ] `n-plus-1` — N+1 في EF Core (Lazy / Include / AsSplitQuery / Projection)

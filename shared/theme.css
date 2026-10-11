@@ -155,7 +155,7 @@ input[type=range]{width:100%;accent-color:var(--accent-2);margin:0}
 .stat dd{margin:0;font-family:var(--f-mono);font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;text-align:right;overflow-wrap:anywhere}
 .stat.good dd{color:var(--good)} .stat.bad dd{color:var(--bad)} .stat.warn dd{color:var(--accent)}
 .caption{margin:0;padding:10px 14px;background:var(--sunk);border-radius:8px;font-size:15px;min-height:3.6em}
-.caption b{font-family:var(--f-mono);color:var(--accent-2);font-weight:600;margin-inline-end:6px}
+.caption > b:first-child{font-family:var(--f-mono);color:var(--accent-2);font-weight:600;margin-inline-end:8px;unicode-bidi:isolate;display:inline-block}
 
 .explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:18px 28px;border-top:1px solid var(--line);padding-top:16px}
 .explain > div{min-width:0;display:grid;gap:6px;align-content:start}

@@ -85,7 +85,7 @@
         L('btree-index', 'Full Scan vs Index Seek', 'Table Scan / B-Tree / Index Seek', 'labs/databases/btree-index.js'),
         L('index-types', 'Clustered vs Non-clustered vs Covering', 'Clustered / Non-clustered / Covering / Key Lookup', 'labs/databases/index-types.js'),
         L('execution-plan', 'Execution Plan بالعين', 'Execution Plan / Tipping Point / Estimates', 'labs/databases/execution-plan.js'),
-        L('acid', 'Transactions و ACID', 'Transaction / ACID / WAL / Recovery'),
+        L('acid', 'Transactions و ACID', 'Transaction / ACID / WAL / Recovery', 'labs/databases/acid.js'),
         L('isolation', 'Isolation Levels', 'Dirty Read / Non-repeatable Read / Phantom'),
         L('locking', 'Locking و Blocking و Deadlock', 'Lock / Blocking / Deadlock / 1205'),
         L('n-plus-1', 'N+1 في EF Core', 'N+1 / Include / Projection'),
