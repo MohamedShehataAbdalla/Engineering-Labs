@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Engineering Labs</title>
+<meta name="description" content="معامل تفاعلية بالعربي لمفاهيم هندسة البرمجيات: Databases، OS، Networking، DSA، System Design، بمحاكاة حيّة من عالم تتبع المركبات.">
+<script>try{var t=localStorage.getItem('labs-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Reem+Kufi:wght@500;700&display=swap">
+<link rel="stylesheet" href="shared/theme.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <a class="brand" href="./">Engineering Labs</a>
+  <nav class="topnav" aria-label="المعامل">
+    <a href="#map">خريطة المعامل</a><a href="#how">إزاي تذاكر</a>
+  </nav>
+  <button class="theme-btn" type="button">الوضع</button>
+</div></header>
+
+<main class="wrap">
+<section class="hero">
+  <h1>معامل هندسة البرمجيات: شوف <span class="en">the system</span> وهو بيشتغل</h1>
+  <p>كل مفهوم هنا ليه تجربة حيّة. الـ rows والـ packets والـ threads بتتحرك قدامك، وأنت بتغيّر الأرقام وتشوف النظام بيتصرف إزاي. الأمثلة كلها من أنظمة حقيقية بحمل حقيقي، وأغلبها من <b>تتبع المركبات</b>: 10,000 جهاز GPS، كل جهاز بيبعت موقعه كل 10 ثواني.</p>
+  <p class="note">المعامل معمولة لكل المستويات. «الفكرة» و«جرّب» للي لسه بيبدأ، و«أعمق (للـ Senior)» فيها internals وأرقام إنتاج وأخطاء شائعة.</p>
+</section>
+
+<section class="chapter" id="map">
+  <div class="chapter-head"><h2>خريطة المعامل</h2><p>الترتيب ده هو ترتيب المذاكرة المقترح</p></div>
+  <div class="labs-grid">
+
+    <div class="lab-tile" aria-disabled="true">
+      <span class="num">01</span>
+      <h3>الـ Data Structures والخوارزميات<span class="en">Data Structures &amp; Algorithms</span></h3>
+      <p>Big-O بالعين، والـ Hash Table اللي جوه <code>Dictionary</code>، وDijkstra لأقصر طريق، وأقرب 5 عربيات لنقطة.</p>
+      <div class="chips"><span class="chip">Big-O</span><span class="chip">Hash</span><span class="chip">Heap</span><span class="chip">BFS/DFS</span><span class="chip">QuadTree</span></div>
+      <span class="status soon">قريبًا</span>
+    </div>
+
+    <div class="lab-tile" aria-disabled="true">
+      <span class="num">02</span>
+      <h3>نظام التشغيل والتزامن<span class="en">Operating System &amp; Concurrency</span></h3>
+      <p>Threads وThread Pool Starvation والـ GC في .NET، وRace Conditions، وDeadlock، وChannels.</p>
+      <div class="chips"><span class="chip">Thread Pool</span><span class="chip">GC</span><span class="chip">Lock</span><span class="chip">Channels</span></div>
+      <span class="status soon">قريبًا</span>
+    </div>
+
+    <div class="lab-tile" aria-disabled="true">
+      <span class="num">03</span>
+      <h3>الشبكات<span class="en">Networking</span></h3>
+      <p>TCP vs UDP لأجهزة الـ GPS، والـ TLS Handshake، وWebSocket، وTCP Framing (الرسايل اللي بتوصل متقطعة أو لازقة في بعض).</p>
+      <div class="chips"><span class="chip">TCP/UDP</span><span class="chip">TLS</span><span class="chip">NAT</span><span class="chip">Framing</span></div>
+      <span class="status soon">قريبًا</span>
+    </div>
+
+    <a class="lab-tile" href="labs/databases/">
+      <span class="num">04</span>
+      <h3>قواعد البيانات<span class="en">Databases</span></h3>
+      <p>الداتا متخزنة إزاي على الديسك، والـ Index بيوفّر إيه فعلًا، وLocks وIsolation، وN+1 في EF Core، وReplication وSharding.</p>
+      <div class="chips"><span class="chip">Pages</span><span class="chip">B-Tree</span><span class="chip">ACID</span><span class="chip">N+1</span><span class="chip">Sharding</span></div>
+      <span class="status wip">شغّال: 1 من 13</span>
+      <div class="progress" aria-hidden="true"><i style="width:8%"></i></div>
+    </a>
+
+    <div class="lab-tile" aria-disabled="true">
+      <span class="num">05</span>
+      <h3>تصميم الأنظمة<span class="en">System Design</span></h3>
+      <p>Caching وMessage Queues وCAP وCircuit Breaker، والتجربة الختامية: صمّم نظام تتبع لـ 100 ألف عربية.</p>
+      <div class="chips"><span class="chip">Cache</span><span class="chip">Queue</span><span class="chip">CAP</span><span class="chip">Trade-offs</span></div>
+      <span class="status soon">قريبًا</span>
+    </div>
+
+  </div>
+</section>
+
+<section class="chapter" id="how">
+  <div class="chapter-head"><h2>إزاي تستفيد من كل تجربة</h2></div>
+  <div class="explain" style="border-top:0">
+    <div><h4>1. اتفرج الأول</h4><p>سيب التجربة تشتغل بالأرقام الافتراضية، واقرا «الفكرة». الألوان معناها ثابت في كل المعامل: البرتقالي رايح، والتركواز راجع أو خلص، والأحمر فشل أو ضاع.</p></div>
+    <div><h4>2. اكسرها</h4><p>نفّذ سطر «جرّب:» وراقب الأرقام الحيّة. الأرقام دي محسوبة من المحاكاة نفسها، مش مكتوبة ثابتة. زرار «إعادة» بيرجّع نفس السيناريو بالظبط، فتقدر تقارن قبل وبعد.</p></div>
+    <div><h4>3. اربطها بالكود</h4><p>عمود «في .NET» فيه الكود اللي بيعمل نفس السلوك في الإنتاج. و«أعمق» فيها اللي بيفرق بين حد عارف المصطلح وحد فاهم بيحصل إيه تحته.</p></div>
+  </div>
+  <p class="note" style="margin-top:18px">نفس المفاهيم بتتكرر في منصات التوصيل، والـ IoT والمدن الذكية، وبوابات الدفع والبنوك والتداول، والاتصالات والفوترة، واللوجستيات، والشات، والألعاب الجماعية، والبث المباشر. كل تجربة فيها سطر «نفس الفكرة في» لو الربط مفيد.</p>
+</section>
+
+<footer class="page-foot">الحركة في كل المعامل متبطّأة عشان العين تلحقها. في الإنتاج الأزمنة بالـ ms والأعداد بالآلاف، لكن السلوك هو هو.</footer>
+</main>
+
+<script src="shared/helpers.js"></script>
+<script src="shared/engine.js"></script>
+<script>Lab.boot()</script>
+</body>
+</html>

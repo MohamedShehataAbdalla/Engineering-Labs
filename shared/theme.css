@@ -1,0 +1,148 @@
+/* Engineering Labs — shared theme. Tokens only; no hardcoded colors elsewhere. */
+:root{
+  --bg:#EDF1F0; --surface:#FFFFFF; --sunk:#E2E8E7; --ink:#14202A; --muted:#566573; --line:#CBD5D7;
+  --accent:#D47A0E; --accent-2:#11807A; --violet:#5D55A6; --good:#2C8A4D; --bad:#C2412D;
+  --f-display:"Reem Kufi","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E151B; --surface:#152029; --sunk:#1A2731; --ink:#E4EBEE; --muted:#93A3AE; --line:#2A3A46;
+  --accent:#F0A23B; --accent-2:#3AB7AE; --violet:#A19AE8; --good:#5BC27F; --bad:#EF6C55; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E151B; --surface:#152029; --sunk:#1A2731; --ink:#E4EBEE; --muted:#93A3AE; --line:#2A3A46;
+  --accent:#F0A23B; --accent-2:#3AB7AE; --violet:#A19AE8; --good:#5BC27F; --bad:#EF6C55; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75}
+a{color:var(--accent-2)}
+:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:4px}
+.en,code,kbd{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate}
+code{font-size:.9em}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1080px;margin:0 auto;padding-inline:clamp(16px,4vw,32px);display:flex;gap:12px;align-items:center;min-height:52px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:18px;white-space:nowrap;color:var(--ink);text-decoration:none}
+.topnav{display:flex;gap:4px;overflow-x:auto;min-width:0;flex:1;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav a{font-size:14px;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.topnav a:hover{color:var(--ink);background:var(--sunk)}
+.theme-btn{flex:none;font:500 13px/1 var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer}
+.theme-btn:hover{border-color:var(--accent-2)}
+
+/* ---------- page ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding-inline:clamp(16px,4vw,32px);padding-block:0 72px}
+.hero{padding-block:44px 8px;display:grid;gap:14px}
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,6vw,52px);line-height:1.25;margin:0;text-wrap:balance}
+.hero h1 .en{font-weight:700;color:var(--accent);font-size:.82em}
+.hero p{max-width:66ch;color:var(--muted);font-size:17px;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.note{font-size:14px;color:var(--muted);border-inline-start:3px solid var(--accent);padding:2px 12px;margin:0}
+
+.chapter{margin-top:56px;scroll-margin-top:70px}
+.chapter-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.chapter-head h2{font-family:var(--f-display);font-size:clamp(24px,3.6vw,32px);margin:0}
+.chapter-head p{margin:0;color:var(--muted);font-size:15px}
+
+/* ---------- lab card ---------- */
+.lab{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(14px,3vw,26px);display:grid;gap:16px;margin-top:22px;scroll-margin-top:70px;min-width:0}
+.lab-head{display:grid;gap:6px}
+.lab-title{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+.terms{font-family:var(--f-mono);font-weight:700;font-size:clamp(17px,2.6vw,23px);margin:0;line-height:1.4;direction:ltr;text-align:right;text-wrap:balance}
+.terms .sep{color:var(--line);font-weight:400}
+.level{font:600 12px/1 var(--f-body);padding:5px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.level.l1{color:var(--good)} .level.l2{color:var(--accent)} .level.l3{color:var(--bad)}
+.lede{margin:0;color:var(--muted);max-width:72ch}
+
+.stage{position:relative;border-radius:10px;overflow:hidden;background:var(--sunk);border:1px solid var(--line);display:flex;flex-direction:column}
+.stage canvas{display:block;width:100%;height:290px;touch-action:pan-y}
+/* toolbar sits above the canvas (in flow) so it never covers the drawing */
+.stage-bar{order:-1;display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-bottom:1px solid var(--line);background:var(--surface)}
+.stage-err{position:absolute;inset:auto 8px 8px 8px;background:var(--surface);color:var(--bad);border:1px solid var(--bad);border-radius:8px;padding:6px 10px;font:500 13px/1.5 var(--f-mono);direction:ltr;text-align:left}
+.btn{font:500 13px/1.4 var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:5px 11px;cursor:pointer}
+.btn:hover{border-color:var(--accent-2)}
+.btn.act{border-color:var(--accent);color:var(--accent);font-weight:600}
+
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:14px 22px;align-items:end}
+.ctl{display:grid;gap:4px;font-size:14px;min-width:0}
+.ctl .row{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ctl output{font-family:var(--f-mono);font-size:13px;color:var(--accent-2);direction:ltr;white-space:nowrap}
+input[type=range]{width:100%;accent-color:var(--accent-2);margin:0}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;width:max-content;max-width:100%}
+.seg button,.btn{unicode-bidi:plaintext}
+.seg button{font:500 13px/1.4 var(--f-body);background:transparent;color:var(--muted);border:0;padding:6px 12px;cursor:pointer}
+.seg button+button{border-inline-start:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+
+/* cell borders via negative margins: works for any count without grey filler cells */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,45%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0}
+.stat{background:var(--surface);padding:8px 12px;min-width:0;border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line);margin-inline-end:-1px;margin-bottom:-1px}
+.stat dt{font-size:12px;color:var(--muted);line-height:1.5}
+.stat dd{margin:0;font-family:var(--f-mono);font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;text-align:right;overflow-wrap:anywhere}
+.stat.good dd{color:var(--good)} .stat.bad dd{color:var(--bad)} .stat.warn dd{color:var(--accent)}
+.caption{margin:0;padding:10px 14px;background:var(--sunk);border-radius:8px;font-size:15px;min-height:3.6em}
+.caption b{font-family:var(--f-mono);color:var(--accent-2);font-weight:600;margin-inline-end:6px}
+
+.explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:18px 28px;border-top:1px solid var(--line);padding-top:16px}
+.explain > div{min-width:0;display:grid;gap:6px;align-content:start}
+.explain h4{font-family:var(--f-display);font-weight:500;font-size:15px;margin:0;color:var(--accent-2)}
+.explain p{margin:0;font-size:15px}
+.try{color:var(--muted);font-size:14px}
+.try::before{content:"جرّب: ";color:var(--accent);font-weight:600}
+.also{color:var(--muted);font-size:14px}
+.also::before{content:"نفس الفكرة في: ";color:var(--violet);font-weight:600}
+
+.deep{border:1px dashed var(--line);border-radius:10px;padding:0 14px}
+.deep summary{cursor:pointer;padding:10px 0;font-family:var(--f-display);font-weight:500;color:var(--violet)}
+.deep[open]{padding-bottom:12px}
+.deep ul{margin:0;padding-inline-start:20px;display:grid;gap:6px;font-size:15px}
+
+pre{direction:ltr;text-align:left;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;font:12.5px/1.65 var(--f-mono);margin:0;color:var(--ink);max-width:100%}
+pre .c{color:var(--muted)}
+pre .k{color:var(--violet)}
+
+/* ---------- glossary / tables ---------- */
+.gloss-wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15px}
+th,td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:500;background:var(--sunk)}
+td:first-child{font-family:var(--f-mono);font-weight:600;white-space:nowrap;direction:ltr;text-align:right}
+tbody tr:last-child td{border-bottom:0}
+
+.related{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin-top:18px}
+.related a,.related div{display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink)}
+.related div{border-style:dashed}
+.related a:hover{border-color:var(--accent-2)}
+.related b{font-family:var(--f-display);font-weight:500}
+.related span{font-size:14px;color:var(--muted)}
+
+.upcoming{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:8px}
+.upcoming li{border:1px dashed var(--line);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--muted)}
+.upcoming li b{font-family:var(--f-mono);font-weight:600;color:var(--ink);direction:ltr;unicode-bidi:isolate}
+
+footer.page-foot{margin-top:40px;color:var(--muted);font-size:14px}
+
+/* ---------- home: lab map ---------- */
+.labs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;margin-top:22px}
+.lab-tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:10px;align-content:start;color:var(--ink);text-decoration:none;position:relative}
+a.lab-tile:hover{border-color:var(--accent-2)}
+.lab-tile .num{font-family:var(--f-mono);font-weight:700;color:var(--accent);font-size:13px}
+.lab-tile h3{font-family:var(--f-display);font-weight:700;font-size:22px;margin:0;line-height:1.3}
+.lab-tile h3 .en{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lab-tile p{margin:0;font-size:15px;color:var(--muted)}
+.lab-tile .chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 12px/1.5 var(--f-mono);direction:ltr;background:var(--sunk);border-radius:6px;padding:2px 8px;color:var(--ink)}
+.status{font:600 12px/1 var(--f-body);padding:5px 9px;border-radius:999px;justify-self:start}
+.status.live{background:var(--accent-2);color:var(--surface)}
+.status.wip{border:1px solid var(--accent);color:var(--accent)}
+.status.soon{border:1px solid var(--line);color:var(--muted)}
+.progress{height:4px;background:var(--sunk);border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent-2)}
+
+@media (max-width:520px){.stage canvas{height:320px}.stat dd{font-size:15px}.hero{padding-block:28px 4px}}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
