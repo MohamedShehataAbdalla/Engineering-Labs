@@ -1,5 +1,6 @@
 /* Engineering Labs — simulation engine.
-   One rAF loop per page, auto-wired controls, live stats, theme, reduced motion, per-sim error isolation.
+   One rAF loop for the whole app. The router mounts the sims of the current view and unmounts them on navigation
+   (observers disconnected, removed from the loop) so nothing leaks between lessons.
    Contract: see CLAUDE.md → "عقد التجربة". */
 (function (G) {
   "use strict";
@@ -8,10 +9,11 @@
   const D = Lab.draw;
 
   const REGISTRY = {};
-  const sims = [];
+  let sims = [];
   const REDUCE = !!(G.matchMedia && G.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const THEME_KEY = 'labs-theme';
   let C = {};
+  let started = false;
 
   /* ---------- theme ---------- */
   function readColors() {
@@ -67,6 +69,7 @@
   function warm(s, sec) { if (!s.w) return; for (let i = 0; i < sec * 30; i++) tick(s, 1 / 30); }
 
   function render(s) {
+    if (!s.w) return;
     guard(s, () => {
       const X = s.ctx;
       D.bind(X, C);
@@ -87,10 +90,11 @@
       if (html !== s._stats) { s._stats = html; s.statsEl.innerHTML = html; }
     });
   }
-  function reset(s) {
+  function start(s) {
     s.t = 0; s.drops = []; s.rng = Lab.util.rng(s.seed); s.dead = false;
     if (s.errEl) { s.errEl.remove(); s.errEl = null; }
-    guard(s, () => { s.def.init(s); warm(s, s.def.warm === undefined ? 2.5 : s.def.warm); });
+    s.started = true; s.warmed = false;
+    guard(s, () => { s.def.init(s); if (s.w) { warm(s, s.def.warm === undefined ? 2.5 : s.def.warm); s.warmed = true; } });
     renderStats(s);
   }
   function syncPlay(s) {
@@ -108,13 +112,15 @@
   function addSteppedButtons(s) {
     const bar = s.card.querySelector('.stage-bar');
     if (!bar || bar.querySelector('[data-act="prev"]')) return;
-    const mk = (act, txt, lbl) => { const b = document.createElement('button'); b.className = 'btn'; b.dataset.act = act; b.textContent = txt; b.setAttribute('aria-label', lbl); return b; };
-    bar.appendChild(mk('prev', '▶', 'الخطوة اللي فاتت'));
-    bar.appendChild(mk('next', '◀', 'الخطوة الجاية'));
+    const mk = (act, txt, lbl) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.act = act; b.textContent = txt; b.setAttribute('aria-label', lbl); return b; };
+    bar.appendChild(mk('prev', '▶ السابقة', 'الخطوة اللي فاتت'));
+    bar.appendChild(mk('next', 'الجاية ◀', 'الخطوة الجاية'));
   }
   function stepTo(s, delta) {
-    const st = s.st, n = s.def.stepCount(s);
-    st.i = clamp((st.i || 0) + delta, 0, n - 1); st.e = 0;
+    guard(s, () => {
+      const st = s.st, n = s.def.stepCount(s);
+      st.i = clamp((st.i || 0) + delta, 0, n - 1); st.e = 0;
+    });
     s.running = false; syncPlay(s); render(s); renderStats(s);
   }
 
@@ -126,8 +132,8 @@
     const s = {
       key, def, card, cv, stage: card.querySelector('.stage'), ctx: cv.getContext('2d'),
       w: 0, h: 0, dpr: 1, t: 0, p: {}, st: {}, C, narrow: false,
-      running: !REDUCE, visible: true, drops: [], dead: false,
-      seed: hash(key), rng: Lab.util.rng(hash(key)),
+      running: !REDUCE, visible: true, drops: [], dead: false, warmed: false,
+      seed: hash(key), rng: Lab.util.rng(hash(key)), observers: [],
       statsEl: card.querySelector('[data-stats]'), capEl: card.querySelector('.caption'), _cap: '', _stats: ''
     };
     s.setCap = html => { if (s.capEl && html !== s._cap) { s._cap = html; s.capEl.innerHTML = html; } };
@@ -137,7 +143,10 @@
       const k = inp.dataset.p, out = card.querySelector(`[data-out="${k}"]`);
       const upd = () => {
         s.p[k] = inp.type === 'checkbox' ? inp.checked : +inp.value;
-        if (out) out.textContent = (inp.dataset.fmt === 'k' ? (+inp.value).toLocaleString('en-US') : inp.value) + (inp.dataset.unit ? ' ' + inp.dataset.unit : '');
+        if (out) {
+          const shown = inp.dataset.map ? inp.dataset.map.split('|')[+inp.value] : (inp.dataset.fmt === 'k' ? (+inp.value).toLocaleString('en-US') : inp.value);
+          out.textContent = shown + (inp.dataset.unit ? ' ' + inp.dataset.unit : '');
+        }
       };
       upd();
       inp.addEventListener('input', () => { upd(); afterParam(s, k); });
@@ -157,7 +166,7 @@
     card.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', () => {
       const a = b.dataset.act;
       if (a === 'toggle') { if (s.dead) return; s.running = !s.running; syncPlay(s); }
-      else if (a === 'reset') { reset(s); render(s); }
+      else if (a === 'reset') { start(s); render(s); }
       else if (a === 'prev' && def.stepped) stepTo(s, -1);
       else if (a === 'next' && def.stepped) stepTo(s, 1);
       else if (def.act && def.act[a]) {
@@ -173,13 +182,15 @@
       s.w = r.width; s.h = r.height; s.narrow = r.width < 520;
       cv.width = Math.max(1, Math.round(r.width * s.dpr));
       cv.height = Math.max(1, Math.round(r.height * s.dpr));
+      // a sim mounted while hidden (0 width) warms up the first time it gets a real size
+      if (s.started && s.w && !s.warmed && !s.dead) { guard(s, () => warm(s, s.def.warm === undefined ? 2.5 : s.def.warm)); s.warmed = true; renderStats(s); }
     };
     s.resize();
-    guard(s, () => { def.init(s); warm(s, def.warm === undefined ? 2.5 : def.warm); });
+    start(s);
     syncPlay(s);
-    try { new ResizeObserver(() => { s.resize(); render(s); }).observe(cv); }
-    catch (e) { G.addEventListener('resize', () => { s.resize(); render(s); }); }
-    try { new IntersectionObserver(es => es.forEach(e => { s.visible = e.isIntersecting; }), { rootMargin: '120px' }).observe(card); }
+    try { const ro = new ResizeObserver(() => { s.resize(); render(s); }); ro.observe(cv); s.observers.push(ro); }
+    catch (e) { const h = () => { s.resize(); render(s); }; G.addEventListener('resize', h); s.observers.push({ disconnect: () => G.removeEventListener('resize', h) }); }
+    try { const io = new IntersectionObserver(es => es.forEach(e => { s.visible = e.isIntersecting; }), { rootMargin: '120px' }); io.observe(card); s.observers.push(io); }
     catch (e) { }
     sims.push(s);
     render(s); renderStats(s);
@@ -192,7 +203,7 @@
     for (const s of sims) {
       if (!s.visible || s.dead) continue;
       if (s.running) guard(s, () => tick(s, dt));
-      if (s.w) render(s);
+      render(s);
     }
     G.requestAnimationFrame(frame);
   }
@@ -202,27 +213,39 @@
     if (REGISTRY[key]) console.warn(`[Lab] sim "${key}" registered twice`);
     REGISTRY[key] = def;
   };
-  Lab.boot = function () {
-    readColors();
-    setupThemeButton();
-    try { G.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors); } catch (e) { }
-    new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    document.querySelectorAll('.lab[data-sim]').forEach(setup);
-    last = G.performance.now();
-    G.requestAnimationFrame(frame);
-    setInterval(() => { for (const s of sims) if (s.visible && s.running) renderStats(s); }, 300);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => sims.forEach(render));
+  Lab.engine = {
+    /** once per page load: theme, colors, loop, live-stats timer */
+    init() {
+      if (started) return; started = true;
+      readColors();
+      setupThemeButton();
+      try { G.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors); } catch (e) { }
+      new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      last = G.performance.now();
+      G.requestAnimationFrame(frame);
+      setInterval(() => { for (const s of sims) if (s.visible && s.running) renderStats(s); }, 300);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => sims.forEach(render));
+    },
+    /** start every .lab[data-sim] inside root */
+    mount(root) { root.querySelectorAll('.lab[data-sim]').forEach(setup); },
+    /** stop and drop every running sim (called before the router swaps the view) */
+    unmount() {
+      for (const s of sims) { s.observers.forEach(o => o.disconnect()); s.running = false; s.dead = true; }
+      sims = [];
+    },
+    count: () => sims.length
   };
   Lab.REDUCED_MOTION = REDUCE;
+
   /** console helpers for verification: Lab.debug.advance('pages', 10) runs 10 simulated seconds */
   Lab.debug = {
-    sims,
+    get sims() { return sims; },
     get: key => sims.find(s => s.key === key),
     advance(key, sec) {
       const s = this.get(key); if (!s) return null;
       guard(s, () => { for (let i = 0; i < sec * 30; i++) tick(s, 1 / 30); });
       render(s); renderStats(s);
-      return s.dead ? 'dead' : [...s.statsEl.querySelectorAll('.stat')].map(e => e.innerText.replace(/\n/, ': ')).join(' | ');
+      return s.dead ? 'dead' : s.statsEl ? [...s.statsEl.querySelectorAll('.stat')].map(e => e.innerText.replace(/\n/, ': ')).join(' | ') : 'ok';
     }
   };
 })(window);

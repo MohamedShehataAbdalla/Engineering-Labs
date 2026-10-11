@@ -219,4 +219,57 @@
 
     act: { rebuild(s) { s.def.rebuild(s); } }
   });
+
+  Lab.registerLesson({
+    id: 'pages', lab: 'databases', title: 'Pages و Rows و Page Split',
+    html: Lab.tpl.lesson({
+      sim: 'pages', level: 1, caption: true,
+      terms: ['Page', 'Row', 'Page Split', 'FILLFACTOR', 'Fragmentation'],
+      lede: 'نقط الـ GPS بتتكتب كصفوف جوه صفحات 8 KB. فوق: تشريح آخر صفحة اتكتب فيها. تحت: كل صفحات الجدول بترتيب الـ key، والجزء الملوّن هو نسبة امتلاء كل صفحة.',
+      aria: 'محاكاة صفوف بتتكتب في صفحات 8 كيلوبايت وبتحصل Page Splits',
+      acts: [['rebuild', 'REBUILD']],
+      controls: [
+        { type: 'seg', p: 'key', label: 'الـ Clustered key', value: 'identity', opts: [['identity', 'Id IDENTITY'], ['vehicle', '(VehicleId, Ts)'], ['newid', 'NEWID()']] },
+        { type: 'seg', p: 'row', label: 'حجم الصف شامل الـ overhead', value: 200, opts: [[50, '50 B'], [200, '200 B'], [1000, '1000 B'], [4100, '4100 B']] },
+        { type: 'range', p: 'rate', label: 'معدل الـ INSERT', min: 5, max: 120, step: 5, value: 25, unit: 'rows/s' },
+        { type: 'range', p: 'ff', label: 'FILLFACTOR: بيتطبّق مع REBUILD', min: 50, max: 100, step: 5, value: 100, unit: '%' }
+      ],
+      idea: `
+        <p>SQL Server مش بيقرا ويكتب صفوف، بيقرا ويكتب <b>Pages</b>. كل صفحة 8 KB (8,192 bytes): أول 96 byte <b>header</b>، وبعدين الصفوف، وفي آخر الصفحة <b>slot array</b> (2 bytes لكل صف) بيقول كل صف موجود فين. كل 8 صفحات بيكوّنوا <b>Extent</b> (64 KB).</p>
+        <p>لو الجدول عليه <b>clustered index</b>، صفوفه مترتبة منطقيًا بالـ key. لو صف جديد لازم يدخل صفحة مليانة، بيحصل <b>Page Split</b>: حوالي نص الصفوف بيتنقل لصفحة جديدة. <b>FILLFACTOR</b> نسبة الملء وقت بناء الـ index، عشان يفضل مكان للـ inserts الجاية. <b>Fragmentation</b> معناها إن ترتيب الصفحات المنطقي بقى مختلف عن ترتيبها على الديسك.</p>`,
+      real: `
+        <p>جدول <code>GpsPoints</code> بياخد 1,000 insert في الثانية. لو الـ clustered key هو <code>Id IDENTITY</code>، كل الكتابة بتروح لآخر صفحة، والصفحات بتتملي 100% من غير splits. لو هو <code>NEWID()</code>، كل صف بيقع في مكان عشوائي، فالـ splits مبتقفش والصفحات بتستقر حوالي 69% مليانة. يعني نفس الداتا بتاخد صفحات أكتر بحوالي 45%، وده IO وذاكرة أكتر في كل قراءة.</p>`,
+      try: 'قارن <code>IDENTITY</code> و <code>NEWID()</code> في Page density والـ Fragmentation. بعدين خلّي FILLFACTOR = 70 واضغط REBUILD: الـ splits هتختفي فترة لحد ما الفراغ يتملي وبعدين ترجع. وجرّب صف 4100 B: صف واحد بس يدخل الصفحة، ونصها بيفضل فاضي على طول.',
+      also: 'بوابات الدفع والبنوك (<code>TransactionId</code> من نوع GUID)، والشات (<code>MessageId</code>)، وطلبات منصات التوصيل.',
+      net: `
+<pre><span class="c">-- key متزايد: الكتابة كلها في آخر صفحة</span>
+CREATE TABLE GpsPoints (
+  Id BIGINT IDENTITY PRIMARY KEY CLUSTERED,
+  VehicleId INT NOT NULL, Ts DATETIME2(0) NOT NULL,
+  Lat DECIMAL(9,6), Lng DECIMAL(9,6), Speed SMALLINT);
+
+<span class="c">-- اترك 10% فاضي في كل صفحة</span>
+ALTER INDEX ALL ON GpsPoints
+  REBUILD WITH (FILLFACTOR = 90);
+
+<span class="c">-- قيس الامتلاء والـ fragmentation</span>
+SELECT avg_page_space_used_in_percent,
+       avg_fragmentation_in_percent, page_count
+FROM sys.dm_db_index_physical_stats(
+  DB_ID(), OBJECT_ID('GpsPoints'), NULL, NULL, 'SAMPLED');</pre>
+<pre><span class="c">// EF Core: الـ long key بيتعمل IDENTITY تلقائيًا</span>
+modelBuilder.Entity&lt;GpsPoint&gt;()
+    .HasIndex(p =&gt; new { p.VehicleId, p.Ts });</pre>`,
+      deep: [
+        '<b>المشكلة التانية للـ IDENTITY:</b> كل الـ threads بتكتب في نفس آخر صفحة، فبيحصل contention على الـ latch بتاعها (<code>PAGELATCH_EX</code>) لما الحمل يبقى عالي. من SQL Server 2019 فيه <code>OPTIMIZE_FOR_SEQUENTIAL_KEY = ON</code> على الـ index بيخفف ده.',
+        '<b>ليه 69% بالذات؟</b> مع inserts عشوائية و split نص بنص، متوسط امتلاء الـ B-tree بيستقر حوالي ln 2 ≈ 69%. ده نتيجة رياضية معروفة، وهتشوفها بتطلع لوحدها في المحاكاة.',
+        '<b>(VehicleId, Ts)</b> بيخلّي «مسار عربية في يوم» صفحات جنب بعض، فالقراءة سريعة جدًا. التمن إن الكتابة بتعمل splits في نص الـ index. فيه تصميم شائع: clustered على <code>Id</code> للكتابة، و non-clustered على <code>(VehicleId, Ts)</code> للقراءة. تجربة «Clustered vs Non-clustered» بتقيس الفرق ده.',
+        '<b>GUIDs:</b> EF Core بيولّد للـ <code>Guid</code> keys قيم sequential من ناحية العميل (<code>SequentialGuidValueGenerator</code>) عشان يقلل الـ splits. لكن خد بالك: <code>Guid.CreateVersion7()</code> (.NET 9) مترتب بالوقت، بس SQL Server بيقارن الـ <code>uniqueidentifier</code> بآخر 6 bytes الأول، فـ UUIDv7 بيتصرف في الـ clustered index قريب من الـ NEWID.',
+        '<b>الـ split مكلف في الـ log:</b> نقل الصفوف لصفحة جديدة بيتسجل كله في الـ transaction log، فالـ mid-page split بيولّد log أكتر بكتير من insert عادي.',
+        '<b>Fragmentation مقابل Density:</b> على SSD تأثير الترتيب على الديسك أقل من زمان، لكن الـ density مهمة دايمًا: صفحات أكتر يعني buffer pool أكبر و IO أكتر لنفس عدد الصفوف.',
+        '<b>ترتيب الصفوف جوه الصفحة</b> بيحفظه الـ slot array، مش مكان الصف نفسه. عشان كده الصف الجديد بيتكتب في آخر الجزء المستخدم (البرتقالي في الرسم) حتى لو الـ key بتاعه في النص.',
+        '<b>تبسيطات في المحاكاة:</b> بنعمل الـ split نص بنص بعدد الصفوف، و SQL Server الحقيقي بيختار نقطة التقسيم بالحجم ومكان الـ insert، فالنتيجة «تقريبًا نص بنص». حجم الصف ثابت، وأقصى صف in-row في الحقيقة 8,060 bytes. والجدول بيتعمله TRUNCATE لما يوصل لآخر المساحة اللي تترسم.'
+      ]
+    })
+  });
 })();

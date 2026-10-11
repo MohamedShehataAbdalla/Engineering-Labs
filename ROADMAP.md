@@ -1,10 +1,10 @@
 # ROADMAP — Engineering Labs
 
-علامة التجربة: `[x]` يعني اتبنت واتراجعت في المتصفح (console نظيف، 400px، dark mode) واتعمل لها commit.
+علامة التجربة: `[x]` يعني اتبنت واتراجعت في المتصفح من `file://` (console نظيف، التنقل والرجوع، 390px، dark mode، reduced-motion) واتعمل لها commit.
 
 | المعمل | المسار | الحالة |
 |---|---|---|
-| البنية المشتركة | `shared/` + `index.html` | ✅ |
+| البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | 🟡 جاري |
 | 1. DSA | `labs/dsa/` | ⏳ |
 | 2. OS & Concurrency | `labs/os/` | ⏳ |
@@ -20,23 +20,24 @@
 - [x] `shared/theme.css`: الـ tokens، light/dark، الخطوط، الـ lab card، المستويات
 - [x] `shared/helpers.js`: الرسم، `Meter`، `rng`، `page`، `cyl`
 - [x] `shared/engine.js`: الـ loop، الـ controls، stats، الـ theme، reduced-motion، stepped، عزل الأخطاء
-- [x] `index.html`: خريطة المعامل
+- [x] `index.html`: SPA واحد (sidebar + breadcrumb + hash routing + السابق/التالي + «خلّصتها»)
+- [x] `shared/catalog.js` و `shared/app.js`: الـ router والـ lazy loading و `registerLesson`
 
 ## 4. Databases ← نبدأ بيه
 - [x] `pages` — Pages & Rows و Page Split و FILLFACTOR (IDENTITY vs NEWID)
-- [ ] `scan-seek` — Full Table Scan vs B-Tree Index Seek (logical reads، عمق الشجرة)
+- [ ] `btree-index` — Full Table Scan vs B-Tree Index Seek (logical reads، عمق الشجرة)
 - [ ] `index-types` — Clustered vs Non-clustered vs Covering (Key Lookup، RID Lookup، INCLUDE)
-- [ ] `plan` — Execution Plan بالعين (tipping point، estimated vs actual)
+- [ ] `execution-plan` — Execution Plan بالعين (tipping point، estimated vs actual)
 - [ ] `acid` — Transactions و ACID (Write-Ahead Log، crash و recovery)
 - [ ] `isolation` — Isolation Levels: Dirty / Non-repeatable / Phantom (stepped)
 - [ ] `locking` — Locking و Blocking و Deadlock (S/X/U، victim، 1205)
 - [ ] `n-plus-1` — N+1 في EF Core (Lazy / Include / AsSplitQuery / Projection)
-- [ ] `pool` — Connection Pool (Max Pool Size، exhaustion، leak)
-- [ ] `normalize` — Normalization vs Denormalization
+- [ ] `connection-pool` — Connection Pool (Max Pool Size، exhaustion، leak)
+- [ ] `normalization` — Normalization vs Denormalization
 - [ ] `replication` — Replication و Replication Lag (sync/async، stale reads)
 - [ ] `sharding` — Partitioning و Sharding (Hot Shard، Consistent Hashing)
-- [ ] `stores` — SQL vs NoSQL vs Time-series (فين تتخزن نقط الـ GPS)
-- [ ] قاموس المعمل + روابط المعامل المرتبطة
+- [ ] `storage-engines` — SQL vs NoSQL vs Time-series (فين تتخزن نقط الـ GPS)
+- [ ] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 1. Data Structures & Algorithms
 - [ ] `big-o` — Big-O بالعين (عدد الخطوات وهو بيكبر)

@@ -12,25 +12,44 @@
 
 ## القيود التقنية
 - HTML + CSS + JavaScript عادي (Vanilla). **مفيش framework ومفيش build step.**
-- يشتغل بفتح الملف مباشرة (`file://`) أو من أي static server، وبيتنشر على **GitHub Pages**.
-- **classic `<script>` بس، ممنوع ES modules**، لأن الـ modules مبتشتغلش من `file://`. كل الكود المشترك متسجل تحت global واحد اسمه `Lab`.
-- المحاكاة على `<canvas>` مع `requestAnimationFrame`. فيه loop واحد للصفحة كلها والمحرك هو اللي بيديره.
+- **الموقع كله صفحة واحدة (SPA): `index.html` واحد في الـ root.** ممنوع أي `index.html` جوه فولدرات المعامل. الأسباب: فتح فولدر من `file://` بيعرض محتواه بدل الصفحة، وصاحب المشروع مش عايز تنقّل بين صفحات.
+- **لازم يشتغل بفتح `index.html` مباشرة من الديسك (`file://`) من غير server**، وبرضه على **GitHub Pages**:
+  - **ممنوع `fetch()` وممنوع XHR** لأي ملف محلي.
+  - **ممنوع ES modules** (`import` / `export` / `type="module"`).
+  - كل الملفات بتتحمّل بـ `<script src>` عادية. ملفات التجارب بتتحمّل lazy: الـ router بيضيف `<script>` للـ DOM لما المعمل يتفتح.
+  - كل الكود المشترك تحت global واحد اسمه `Lab`.
+- **Hash routing بس**: `#/` (الرئيسية) و `#/<lab>` (صفحة المعمل) و `#/<lab>/<lesson>` (تجربة واحدة). **أي `href="#..."` لازم يكون route.** ممنوع anchors زي `#lab-pages` جوه المحتوى. للربط بين التجارب استخدم `#/databases/pages`.
+- المحاكاة على `<canvas>` مع `requestAnimationFrame`. فيه loop واحد للموقع كله، والمحرك هو اللي بيديره.
 - مفيش مكتبات خارجية إلا لو في سبب قوي، وتكون نسخة pinned من CDN، ولازم تسأل الأول.
 - الخطوط من Google Fonts: **Reem Kufi** للعناوين، **IBM Plex Sans Arabic** للنصوص، **JetBrains Mono** للأرقام والكود والمصطلحات الإنجليزي.
-- الروابط كلها **نسبية** (`../../shared/...`) عشان تشتغل على GitHub Pages تحت أي sub-path.
+- الروابط والـ `src` كلها **نسبية** لـ `index.html` (`labs/databases/pages.js`) عشان تشتغل على GitHub Pages تحت أي sub-path.
 
 ## هيكل الملفات
 ```
-index.html              ← الصفحة الرئيسية: خريطة المعامل وترتيب المذاكرة وحالة كل معمل
+index.html              ← الـ shell الوحيد: topbar (اسم الموقع + breadcrumb) + sidebar + <main>
 shared/
-  theme.css             ← الـ tokens والخطوط والـ layout ومكوّنات الـ lab card
-  helpers.js            ← Lab.draw (box, tx, dot, ring, arrow, hatch, page, cyl...) + Lab.Meter + Lab.rng
-  engine.js             ← Lab.registerSim / Lab.boot: الـ loop والـ controls والأرقام الحيّة والـ theme
+  theme.css             ← الـ tokens والخطوط والـ layout (shell، sidebar/drawer) ومكوّنات الـ lab card
+  helpers.js            ← Lab.util (Meter, rng, spawnLoop, mv/adv, fmt) + Lab.draw (box, tx, dot, ring, arrow, hatch, cyl...)
+  engine.js             ← Lab.registerSim + Lab.engine.init/mount/unmount + Lab.debug
+  catalog.js            ← Lab.CATALOG: كل المعامل وكل التجارب بالترتيب. `file` = مسار ملف التجربة لو اتبنت، و null = «قريبًا»
+  app.js                ← Lab.registerLesson + Lab.tpl.lesson + الـ router + الـ sidebar + «خلّصتها» (localStorage)
 labs/
-  databases/index.html + sims/*.js   ← ملف لكل تجربة
+  databases/<lesson-id>.js   ← ملف واحد لكل تجربة: registerSim(...) + registerLesson(...)
   os/ · networking/ · dsa/ · system-design/
 ```
-ترتيب التحميل في صفحة المعمل: `helpers.js` ثم `engine.js` ثم `sims/*.js` ثم `<script>Lab.boot()</script>`.
+ترتيب التحميل في `index.html`: `helpers.js` ← `engine.js` ← `catalog.js` ← `app.js` ← `Lab.app.start()`. ملفات التجارب بيحمّلها الـ router لما المعمل يتفتح.
+
+## إضافة تجربة جديدة
+1. اعمل `labs/<lab>/<lesson-id>.js` فيه `Lab.registerSim('<sim-key>', {...})` (لو فيها محاكاة) و `Lab.registerLesson({ id, lab, title, html })`.
+2. الـ `html` اتبنيه بـ `Lab.tpl.lesson({...})` عشان شكل الـ card يفضل موحّد (شوف `shared/app.js`). التجربة اللي من غير محاكاة (زي القاموس) ممكن تحط `html` عادي.
+3. في `shared/catalog.js` حط `file: 'labs/<lab>/<lesson-id>.js'` للتجربة. من غيره هتفضل «قريبًا» في الـ sidebar.
+4. علّم عليها في `ROADMAP.md`.
+
+## قواعد الـ SPA
+- قبل ما الـ view يتغير، الـ router بينادي `Lab.engine.unmount()`: كل المحاكيات بتقف، الـ observers بتتفصل، وبتتشال من الـ loop. **التجربة متمسكش أي reference global** (timers، listeners على `window`)، ولو احتاجت لازم تنضف وراها.
+- «خلّصتها» متخزنة في `localStorage['labs-done']` كـ array من `"lab/lesson"`. كل قراية وكتابة جوه `try/catch` (الـ storage ممكن يكون مقفول).
+- «السابق / التالي» ماشيين على ترتيب `CATALOG`، وبيعدّوا على التجارب المبنية بس. لو معمل مفيهوش تجارب مبنية، الرابط بيروح لصفحة المعمل نفسه.
+- زرار الرجوع في المتصفح لازم يشتغل. التنقل كله بيتم بتغيير الـ hash، ممنوع `history.pushState`.
 
 ---
 
@@ -72,7 +91,7 @@ Lab.registerSim('btree', {
 - `<p class="caption">`: للتجارب الـ stepped أو أي شرح لحظي.
 
 ### المحرك مسؤول عن
-loop واحد، IntersectionObserver (التجربة المخفية متتحركش)، ResizeObserver + devicePixelRatio، الأرقام الحيّة كل 300ms، الـ theme (زرار + localStorage جوه try/catch)، `prefers-reduced-motion` (التجربة تبدأ واقفة بعد الـ warm)، وعزل الأخطاء (لو تجربة رمت exception بتقف هي لوحدها ويظهر عليها شريط خطأ).
+loop واحد، IntersectionObserver (التجربة المخفية متتحركش)، ResizeObserver + devicePixelRatio، الأرقام الحيّة كل 300ms، الـ theme (زرار + localStorage جوه try/catch)، `prefers-reduced-motion` (التجربة تبدأ واقفة بعد الـ warm)، وعزل الأخطاء (لو تجربة رمت exception بتقف هي لوحدها ويظهر عليها شريط خطأ). والـ mount/unmount مع كل تغيير في الـ route. للتحقق: `Lab.debug.advance('<sim-key>', 20)` بيشغّل 20 ثانية محاكاة ويرجّع الأرقام الحيّة، و `Lab.engine.count()` عدد المحاكيات الشغالة.
 
 ---
 
@@ -105,8 +124,8 @@ loop واحد، IntersectionObserver (التجربة المخفية متتحرك
 6. **`<details class="deep">` «أعمق (للـ Senior)»**: تفاصيل internals، trade-offs، أرقام حقيقية، وأخطاء شائعة في الإنتاج. اختياري لكن مفضّل.
 
 وفي آخر كل معمل:
-- **قاموس سريع**: جدول بكل المصطلحات، وكل مصطلح بلينك للتجربة بتاعته.
-- **روابط للمعامل المرتبطة** (مثال: Replication بتلمّح لـ System Design).
+- **قاموس المعمل**: تجربة لوحدها (`glossary`) آخر المعمل، جدول بكل المصطلحات، وكل مصطلح بلينك `#/<lab>/<lesson>` للتجربة بتاعته.
+- **روابط للمعامل المرتبطة**: في `related` جوه `CATALOG`، وبتظهر في صفحة المعمل (مثال: Replication بتلمّح لـ System Design).
 
 ## أسلوب المحتوى
 - **عامية مصرية بسيطة**، والمصطلحات التقنية بالإنجليزي جوه الكلام زي ما بنقولها في الشغل.
@@ -116,6 +135,6 @@ loop واحد، IntersectionObserver (التجربة المخفية متتحرك
 
 ## الجودة
 - المحاكاة لازم تكون **صادقة**: السلوك اللي بيظهر ناتج فعلًا عن المنطق (B-tree حقيقي، lock manager حقيقي، طابور حقيقي)، مش أنيميشن متجهز مسبقًا. التجارب الـ stepped (Race Condition، Isolation Levels) مستثناة وبتتعلّم `stepped: true`.
-- بعد كل تجربة لازم تفتحها في المتصفح وتتأكد من: console من غير errors، عرض 400px من غير scroll أفقي، dark mode، و reduced-motion.
+- بعد كل تجربة: افتح `index.html` **من الديسك (`file://`)** واتأكد من: console من غير errors، التنقل وزرار الرجوع شغالين، المحاكاة بتتشال لما تسيب التجربة، عرض 390px من غير scroll أفقي، dark mode، و reduced-motion.
 - **commit بعد كل تجربة** برسالة بالشكل ده: `labs(databases): add pages-rows sim`. ممنوع `git push` (صاحب المشروع بيرفع بنفسه).
 - علّم على التجربة في `ROADMAP.md` في نفس الـ commit.
