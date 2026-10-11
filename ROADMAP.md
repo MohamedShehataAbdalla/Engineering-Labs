@@ -32,7 +32,7 @@
 - [x] `isolation` — Isolation Levels: Dirty / Non-repeatable / Phantom (stepped)
 - [x] `locking` — Locking و Blocking و Deadlock (S/X/U، victim، 1205)
 - [x] `n-plus-1` — N+1 في EF Core (Lazy / Include / AsSplitQuery / Projection)
-- [ ] `connection-pool` — Connection Pool (Max Pool Size، exhaustion، leak)
+- [x] `connection-pool` — Connection Pool (Max Pool Size، exhaustion، leak)
 - [ ] `normalization` — Normalization vs Denormalization
 - [ ] `replication` — Replication و Replication Lag (sync/async، stale reads)
 - [ ] `sharding` — Partitioning و Sharding (Hot Shard، Consistent Hashing)
