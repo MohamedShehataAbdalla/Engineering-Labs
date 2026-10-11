@@ -36,7 +36,7 @@
 - [x] `normalization` — Normalization vs Denormalization
 - [x] `replication` — Replication و Replication Lag (sync/async، stale reads)
 - [x] `sharding` — Partitioning و Sharding (Hot Shard، Consistent Hashing)
-- [ ] `storage-engines` — SQL vs NoSQL vs Time-series (فين تتخزن نقط الـ GPS)
+- [x] `storage-engines` — SQL vs NoSQL vs Time-series (فين تتخزن نقط الـ GPS)
 - [ ] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 1. Data Structures & Algorithms

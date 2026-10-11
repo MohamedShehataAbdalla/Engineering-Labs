@@ -18,7 +18,8 @@
   const fmt = v => Math.round(v).toLocaleString('en-US');
   /** bytes → "8 KB" / "1.2 MB" */
   const bytes = b => b < 1024 ? Math.round(b) + ' B' : b < 1048576 ? f1(b / 1024).replace(/\.0$/, '') + ' KB'
-    : b < 1073741824 ? f1(b / 1048576).replace(/\.0$/, '') + ' MB' : f1(b / 1073741824).replace(/\.0$/, '') + ' GB';
+    : b < 1073741824 ? f1(b / 1048576).replace(/\.0$/, '') + ' MB' : b < 1099511627776 ? f1(b / 1073741824).replace(/\.0$/, '') + ' GB'
+    : f1(b / 1099511627776).replace(/\.0$/, '') + ' TB';
 
   /** mulberry32: small, fast, seeded PRNG → reset gives the same scenario */
   function rng(seed) {
