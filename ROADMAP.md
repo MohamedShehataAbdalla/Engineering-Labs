@@ -25,7 +25,7 @@
 
 ## 4. Databases ← نبدأ بيه
 - [x] `pages` — Pages & Rows و Page Split و FILLFACTOR (IDENTITY vs NEWID)
-- [ ] `btree-index` — Full Table Scan vs B-Tree Index Seek (logical reads، عمق الشجرة)
+- [x] `btree-index` — Full Table Scan vs B-Tree Index Seek (logical reads، عمق الشجرة)
 - [ ] `index-types` — Clustered vs Non-clustered vs Covering (Key Lookup، RID Lookup، INCLUDE)
 - [ ] `execution-plan` — Execution Plan بالعين (tipping point، estimated vs actual)
 - [ ] `acid` — Transactions و ACID (Write-Ahead Log، crash و recovery)

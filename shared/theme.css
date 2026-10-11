@@ -64,12 +64,15 @@ a.side-item:hover{background:var(--sunk)}
 @media (max-width:900px){
   .shell{display:block}
   .menu-btn{display:inline-block}
-  .side{position:fixed;top:0;inset-inline-start:0;bottom:0;height:100%;width:min(86vw,320px);z-index:50;transform:translateX(100%);transition:transform .2s ease;box-shadow:none}
-  .drawer-open .side{transform:none;box-shadow:0 0 40px rgba(0,0,0,.3)}
+  /* closed drawer is display:none (a translated one still widens the scrollable area) */
+  .side{display:none;position:fixed;top:0;inset-inline-start:0;bottom:0;height:100%;width:min(86vw,320px);z-index:50}
+  .drawer-open .side{display:block;box-shadow:0 0 40px rgba(0,0,0,.3);animation:drawer-in .2s ease}
   .drawer-open .scrim{display:block;position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.4)}
   .brand{font-size:16px}
   .crumbs{font-size:13px}
 }
+@keyframes drawer-in{from{transform:translateX(100%)}to{transform:none}}
+@media (prefers-reduced-motion: reduce){.drawer-open .side{animation:none}}
 @media (max-width:520px){.crumbs a,.crumbs .crumb-sep{display:none}}
 
 /* ---------- page ---------- */
@@ -139,7 +142,7 @@ a.lesson-row:hover{border-color:var(--accent-2)}
 .ctl .row{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .ctl output{font-family:var(--f-mono);font-size:13px;color:var(--accent-2);direction:ltr;white-space:nowrap}
 input[type=range]{width:100%;accent-color:var(--accent-2);margin:0}
-.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;width:max-content;max-width:100%}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;width:fit-content;max-width:100%}
 .seg button,.btn{unicode-bidi:plaintext}
 .seg button{font:500 13px/1.4 var(--f-body);background:transparent;color:var(--muted);border:0;padding:6px 12px;cursor:pointer}
 .seg button+button{border-inline-start:1px solid var(--line)}

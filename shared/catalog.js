@@ -82,7 +82,7 @@
       ],
       lessons: [
         L('pages', 'Pages و Rows و Page Split', 'Page / Row / Page Split / FILLFACTOR', 'labs/databases/pages.js'),
-        L('btree-index', 'Full Scan vs Index Seek', 'Table Scan / B-Tree / Index Seek'),
+        L('btree-index', 'Full Scan vs Index Seek', 'Table Scan / B-Tree / Index Seek', 'labs/databases/btree-index.js'),
         L('index-types', 'Clustered vs Non-clustered vs Covering', 'Clustered / Non-clustered / Covering / Key Lookup'),
         L('execution-plan', 'Execution Plan بالعين', 'Execution Plan / Tipping Point / Estimates'),
         L('acid', 'Transactions و ACID', 'Transaction / ACID / WAL / Recovery'),

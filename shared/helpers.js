@@ -128,7 +128,17 @@
     X.beginPath(); X.ellipse(x + w / 2, y + e, w / 2, e, 0, 0, Math.PI, false); X.stroke();
   }
 
-  Lab.util = { lerp, clamp, ease, expo, f1, fmt, bytes, rng, Meter, spawnLoop, mv, adv };
+  /** page counts per B-tree level for a fully packed index, from the root down to the leaf.
+      leafCap = rows per leaf page, fanout = child pointers per non-leaf page */
+  function btreeLevels(rows, leafCap, fanout) {
+    const lv = [Math.max(1, Math.ceil(rows / leafCap))];
+    while (lv[0] > 1) lv.unshift(Math.ceil(lv[0] / fanout));
+    return lv;
+  }
+  /** rows that fit in an 8 KB page: 8,096 usable bytes, 2-byte slot per row */
+  const perPage = rowBytes => Math.floor(8096 / (rowBytes + 2));
+
+  Lab.util = { lerp, clamp, ease, expo, f1, fmt, bytes, rng, Meter, spawnLoop, mv, adv, btreeLevels, perPage };
   Lab.draw = { bind, rr, box, tx, textW, dot, circ, ring, line, arrow, hatch, alpha, cyl, ctx: () => X, colors: () => C };
   Lab.FONT = { body: FB, mono: FM };
 })(window);
