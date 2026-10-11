@@ -91,7 +91,7 @@
         L('n-plus-1', 'N+1 في EF Core', 'N+1 / Include / Projection', 'labs/databases/n-plus-1.js'),
         L('connection-pool', 'Connection Pool', 'Connection Pool / Exhaustion', 'labs/databases/connection-pool.js'),
         L('normalization', 'Normalization vs Denormalization', 'Normalization / Denormalization', 'labs/databases/normalization.js'),
-        L('replication', 'Replication و Replication Lag', 'Replication / Lag / Failover'),
+        L('replication', 'Replication و Replication Lag', 'Replication / Lag / Failover', 'labs/databases/replication.js'),
         L('sharding', 'Partitioning و Sharding', 'Sharding / Hot Shard / Consistent Hashing'),
         L('storage-engines', 'SQL vs NoSQL vs Time-series', 'SQL / NoSQL / Time-series'),
         L('glossary', 'قاموس المعمل', 'Glossary')

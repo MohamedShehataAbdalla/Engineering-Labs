@@ -34,7 +34,7 @@
 - [x] `n-plus-1` — N+1 في EF Core (Lazy / Include / AsSplitQuery / Projection)
 - [x] `connection-pool` — Connection Pool (Max Pool Size، exhaustion، leak)
 - [x] `normalization` — Normalization vs Denormalization
-- [ ] `replication` — Replication و Replication Lag (sync/async، stale reads)
+- [x] `replication` — Replication و Replication Lag (sync/async، stale reads)
 - [ ] `sharding` — Partitioning و Sharding (Hot Shard، Consistent Hashing)
 - [ ] `storage-engines` — SQL vs NoSQL vs Time-series (فين تتخزن نقط الـ GPS)
 - [ ] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
