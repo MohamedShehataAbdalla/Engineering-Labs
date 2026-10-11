@@ -94,7 +94,7 @@
         L('replication', 'Replication و Replication Lag', 'Replication / Lag / Failover', 'labs/databases/replication.js'),
         L('sharding', 'Partitioning و Sharding', 'Sharding / Hot Shard / Consistent Hashing', 'labs/databases/sharding.js'),
         L('storage-engines', 'SQL vs NoSQL vs Time-series', 'SQL / NoSQL / Time-series', 'labs/databases/storage-engines.js'),
-        L('glossary', 'قاموس المعمل', 'Glossary')
+        L('glossary', 'قاموس المعمل', 'Glossary', 'labs/databases/glossary.js')
       ]
     },
     {

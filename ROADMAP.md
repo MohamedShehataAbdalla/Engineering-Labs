@@ -5,7 +5,7 @@
 | المعمل | المسار | الحالة |
 |---|---|---|
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
-| 4. Databases | `labs/databases/` | 🟡 جاري |
+| 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ⏳ |
 | 2. OS & Concurrency | `labs/os/` | ⏳ |
 | 3. Networking | `labs/networking/` | ⏳ |
@@ -37,7 +37,7 @@
 - [x] `replication` — Replication و Replication Lag (sync/async، stale reads)
 - [x] `sharding` — Partitioning و Sharding (Hot Shard، Consistent Hashing)
 - [x] `storage-engines` — SQL vs NoSQL vs Time-series (فين تتخزن نقط الـ GPS)
-- [ ] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
+- [x] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 1. Data Structures & Algorithms
 - [ ] `big-o` — Big-O بالعين (عدد الخطوات وهو بيكبر)

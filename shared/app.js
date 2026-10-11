@@ -210,7 +210,7 @@ ${rel ? `<section class="chapter"><div class="chapter-head"><h2>معامل مر�
     const prev = seq[i - 1], next = seq[i + 1];
     const idx = lab.lessons.indexOf(meta) + 1;
     const doneNow = isDone(lab.id, meta.id);
-    const navLink = (x, dir) => x ? `<a class="pager-${dir}" href="${x.href}"><span>${dir === 'prev' ? '→ السابق' : 'التالي ←'}</span><b>${x.label}</b>${x.lab.id !== lab.id ? `<i>معمل ${x.lab.title}</i>` : ''}</a>` : '<span></span>';
+    const navLink = (x, dir) => x ? `<a class="pager-${dir}" href="${x.href}"><span>${dir === 'prev' ? '→ السابق' : 'التالي ←'}</span><b>${x.label}</b>${x.lesson && x.lab.id !== lab.id ? `<i>معمل ${x.lab.title}</i>` : ''}</a>` : '<span></span>';
     return {
       title: meta.title, crumbs: [[lab.title, `#/${lab.id}`], [meta.title, `#/${lab.id}/${meta.id}`]], html: `
 <p class="lesson-kicker">تجربة ${idx} من ${lab.lessons.length} · معمل ${lab.title}</p>
