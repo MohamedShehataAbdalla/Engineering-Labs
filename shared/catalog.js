@@ -88,7 +88,7 @@
         L('acid', 'Transactions و ACID', 'Transaction / ACID / WAL / Recovery', 'labs/databases/acid.js'),
         L('isolation', 'Isolation Levels', 'Dirty Read / Non-repeatable Read / Phantom', 'labs/databases/isolation.js'),
         L('locking', 'Locking و Blocking و Deadlock', 'Lock / Blocking / Deadlock / 1205', 'labs/databases/locking.js'),
-        L('n-plus-1', 'N+1 في EF Core', 'N+1 / Include / Projection'),
+        L('n-plus-1', 'N+1 في EF Core', 'N+1 / Include / Projection', 'labs/databases/n-plus-1.js'),
         L('connection-pool', 'Connection Pool', 'Connection Pool / Exhaustion'),
         L('normalization', 'Normalization vs Denormalization', 'Normalization / Denormalization'),
         L('replication', 'Replication و Replication Lag', 'Replication / Lag / Failover'),

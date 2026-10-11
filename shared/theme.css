@@ -22,7 +22,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);fo
 a{color:var(--accent-2)}
 :focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:4px}
 .en,code,kbd{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate}
-code{font-size:.9em}
+code{font-size:.9em;overflow-wrap:anywhere}
 
 /* ---------- app shell: top bar + sidebar (right, RTL) + main ---------- */
 :root{--top-h:56px;--side-w:290px}
