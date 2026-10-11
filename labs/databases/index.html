@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>معمل قواعد البيانات</title>
+<meta name="description" content="معمل تفاعلي بالعربي: Pages و Indexes و Transactions و Locking و EF Core و Replication و Sharding، بمحاكاة حيّة من نظام تتبع مركبات.">
+<script>try{var t=localStorage.getItem('labs-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Reem+Kufi:wght@500;700&display=swap">
+<link rel="stylesheet" href="../../shared/theme.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+  <a class="brand" href="../../">Engineering Labs</a>
+  <nav class="topnav" aria-label="الفصول">
+    <a href="#storage">التخزين والـ Index</a><a href="#next">الجاي</a><a href="#glossary">القاموس</a><a href="#related">معامل مرتبطة</a>
+  </nav>
+  <button class="theme-btn" type="button">الوضع</button>
+</div></header>
+
+<main class="wrap">
+<section class="hero">
+  <h1>معمل <span class="en">Databases</span>: الداتا بتتخزن وتتقري إزاي فعلًا</h1>
+  <p>السيناريو ثابت في المعمل كله: <b>10,000 جهاز GPS</b> كل واحد بيبعت موقعه كل 10 ثواني، يعني <b>1,000 insert في الثانية</b> في جدول <code>GpsPoints(Id, VehicleId, Ts, Lat, Lng, Speed)</code>. كل تجربة بتوريك جزء من اللي بيحصل جوه SQL Server وأنت بتكتب وتقرا الجدول ده. الحركة متبطّأة عشان عينك تلحقها.</p>
+  <div class="legend" aria-label="مفتاح الألوان">
+    <span><i style="background:var(--accent)"></i>صف أو طلب جديد داخل</span>
+    <span><i style="background:var(--accent-2)"></i>داتا متخزنة أو شغل خلص</span>
+    <span><i style="background:var(--violet)"></i>metadata: header، slot array، index</span>
+    <span><i style="background:var(--good)"></i>كويس / سريع</span>
+    <span><i style="background:var(--bad)"></i>مكلف: split، scan، ضياع</span>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 1 ============ -->
+<section class="chapter" id="storage">
+  <div class="chapter-head"><h2>التخزين والـ Indexes</h2><p>Storage &amp; Indexes</p></div>
+
+  <article class="lab" id="lab-pages" data-sim="pages">
+    <div class="lab-head">
+      <div class="lab-title">
+        <h3 class="terms">Page <span class="sep">/</span> Row <span class="sep">/</span> Page Split <span class="sep">/</span> FILLFACTOR <span class="sep">/</span> Fragmentation</h3>
+        <span class="level l1">أساسي</span>
+      </div>
+      <p class="lede">نقط الـ GPS بتتكتب كصفوف جوه صفحات 8 KB. فوق: تشريح آخر صفحة اتكتب فيها. تحت: كل صفحات الجدول بترتيب الـ key، والجزء الملوّن هو نسبة امتلاء كل صفحة.</p>
+    </div>
+    <div class="stage"><canvas aria-label="محاكاة صفوف بتتكتب في صفحات 8 كيلوبايت وبتحصل Page Splits"></canvas>
+      <div class="stage-bar"><button class="btn" data-act="toggle">إيقاف</button><button class="btn" data-act="reset">إعادة</button><button class="btn act" data-act="rebuild">REBUILD</button></div></div>
+    <p class="caption" aria-live="polite"></p>
+    <div class="controls">
+      <div class="ctl"><span>الـ Clustered key</span><div class="seg" data-p="key"><button data-v="identity" aria-pressed="true">Id IDENTITY</button><button data-v="vehicle" aria-pressed="false">(VehicleId, Ts)</button><button data-v="newid" aria-pressed="false">NEWID()</button></div></div>
+      <div class="ctl"><span>حجم الصف شامل الـ overhead</span><div class="seg" data-p="row"><button data-v="50" aria-pressed="false">50 B</button><button data-v="200" aria-pressed="true">200 B</button><button data-v="1000" aria-pressed="false">1000 B</button><button data-v="4100" aria-pressed="false">4100 B</button></div></div>
+      <label class="ctl"><span class="row">معدل الـ INSERT<output data-out="rate"></output></span><input type="range" data-p="rate" min="5" max="120" step="5" value="25" data-unit="rows/s"></label>
+      <label class="ctl"><span class="row">FILLFACTOR: بيتطبّق مع REBUILD<output data-out="ff"></output></span><input type="range" data-p="ff" min="50" max="100" step="5" value="100" data-unit="%"></label>
+    </div>
+    <dl class="stats" data-stats></dl>
+    <div class="explain">
+      <div><h4>الفكرة</h4>
+        <p>SQL Server مش بيقرا ويكتب صفوف، بيقرا ويكتب <b>Pages</b>. كل صفحة 8 KB (8,192 bytes): أول 96 byte <b>header</b>، وبعدين الصفوف، وفي آخر الصفحة <b>slot array</b> (2 bytes لكل صف) بيقول كل صف موجود فين. كل 8 صفحات بيكوّنوا <b>Extent</b> (64 KB).</p>
+        <p>لو الجدول عليه <b>clustered index</b>، صفوفه مترتبة منطقيًا بالـ key. لو صف جديد لازم يدخل صفحة مليانة، بيحصل <b>Page Split</b>: حوالي نص الصفوف بيتنقل لصفحة جديدة. <b>FILLFACTOR</b> نسبة الملء وقت بناء الـ index، عشان يفضل مكان للـ inserts الجاية. <b>Fragmentation</b> معناها إن ترتيب الصفحات المنطقي بقى مختلف عن ترتيبها على الديسك.</p>
+      </div>
+      <div><h4>مثال من الواقع</h4>
+        <p>جدول <code>GpsPoints</code> بياخد 1,000 insert في الثانية. لو الـ clustered key هو <code>Id IDENTITY</code>، كل الكتابة بتروح لآخر صفحة، والصفحات بتتملي 100% من غير splits. لو هو <code>NEWID()</code>، كل صف بيقع في مكان عشوائي، فالـ splits مبتقفش والصفحات بتستقر حوالي 69% مليانة. يعني نفس الداتا بتاخد صفحات أكتر بحوالي 45%، وده IO وذاكرة أكتر في كل قراءة.</p>
+        <p class="try">قارن <code>IDENTITY</code> و <code>NEWID()</code> في Page density والـ Fragmentation. بعدين خلّي FILLFACTOR = 70 واضغط REBUILD: الـ splits هتختفي فترة لحد ما الفراغ يتملي وبعدين ترجع. وجرّب صف 4100 B: صف واحد بس يدخل الصفحة، ونصها بيفضل فاضي على طول.</p>
+        <p class="also">بوابات الدفع والبنوك (<code>TransactionId</code> من نوع GUID)، والشات (<code>MessageId</code>)، وطلبات منصات التوصيل.</p>
+      </div>
+      <div><h4>في .NET و SQL Server</h4>
+<pre><span class="c">-- key متزايد: الكتابة كلها في آخر صفحة</span>
+CREATE TABLE GpsPoints (
+  Id BIGINT IDENTITY PRIMARY KEY CLUSTERED,
+  VehicleId INT NOT NULL, Ts DATETIME2(0) NOT NULL,
+  Lat DECIMAL(9,6), Lng DECIMAL(9,6), Speed SMALLINT);
+
+<span class="c">-- اترك 10% فاضي في كل صفحة</span>
+ALTER INDEX ALL ON GpsPoints
+  REBUILD WITH (FILLFACTOR = 90);
+
+<span class="c">-- قيس الامتلاء والـ fragmentation</span>
+SELECT avg_page_space_used_in_percent,
+       avg_fragmentation_in_percent, page_count
+FROM sys.dm_db_index_physical_stats(
+  DB_ID(), OBJECT_ID('GpsPoints'), NULL, NULL, 'SAMPLED');</pre>
+<pre><span class="c">// EF Core: الـ long key بيتعمل IDENTITY تلقائيًا</span>
+modelBuilder.Entity&lt;GpsPoint&gt;()
+    .HasIndex(p =&gt; new { p.VehicleId, p.Ts });</pre>
+      </div>
+    </div>
+    <details class="deep">
+      <summary>أعمق (للـ Senior)</summary>
+      <ul>
+        <li><b>المشكلة التانية للـ IDENTITY:</b> كل الـ threads بتكتب في نفس آخر صفحة، فبيحصل contention على الـ latch بتاعها (<code>PAGELATCH_EX</code>) لما الحمل يبقى عالي. من SQL Server 2019 فيه <code>OPTIMIZE_FOR_SEQUENTIAL_KEY = ON</code> على الـ index بيخفف ده.</li>
+        <li><b>ليه 70% بالذات؟</b> مع inserts عشوائية و split نص بنص، متوسط امتلاء الـ B-tree بيستقر حوالي ln 2 ≈ 69%. ده نتيجة رياضية معروفة، وهتشوفها بتطلع لوحدها في المحاكاة.</li>
+        <li><b>(VehicleId, Ts)</b> بيخلّي «مسار عربية في يوم» صفحات جنب بعض، فالقراءة سريعة جدًا. التمن إن الكتابة بتعمل splits في نص الـ index. فيه تصميم شائع: clustered على <code>Id</code> للكتابة، و non-clustered على <code>(VehicleId, Ts)</code> للقراءة. التجربة الجاية بتقيس الفرق ده.</li>
+        <li><b>GUIDs:</b> EF Core بيولّد للـ <code>Guid</code> keys قيم sequential من ناحية العميل (<code>SequentialGuidValueGenerator</code>) عشان يقلل الـ splits. لكن خد بالك: <code>Guid.CreateVersion7()</code> (.NET 9) مترتب بالوقت، بس SQL Server بيقارن الـ <code>uniqueidentifier</code> بآخر 6 bytes الأول، فـ UUIDv7 بيتصرف في الـ clustered index قريب من الـ NEWID.</li>
+        <li><b>الـ split مكلف في الـ log:</b> نقل الصفوف لصفحة جديدة بيتسجل كله في الـ transaction log، فالـ mid-page split بيولّد log أكتر بكتير من insert عادي.</li>
+        <li><b>Fragmentation مقابل Density:</b> على SSD تأثير الترتيب على الديسك أقل من زمان، لكن الـ density مهمة دايمًا: صفحات أكتر يعني buffer pool أكبر و IO أكتر لنفس عدد الصفوف.</li>
+        <li><b>ترتيب الصفوف جوه الصفحة</b> بيحفظه الـ slot array، مش مكان الصف نفسه. عشان كده الصف الجديد بيتكتب في آخر الجزء المستخدم (البرتقالي في الرسم) حتى لو الـ key بتاعه في النص.</li>
+        <li><b>تبسيطات في المحاكاة:</b> بنعمل الـ split نص بنص بعدد الصفوف، و SQL Server الحقيقي بيختار نقطة التقسيم بالحجم ومكان الـ insert، فالنتيجة «تقريبًا نص بنص». حجم الصف ثابت، وأقصى صف in-row في الحقيقة 8,060 bytes.</li>
+      </ul>
+    </details>
+  </article>
+</section>
+
+<section class="chapter" id="next">
+  <div class="chapter-head"><h2>الجاي في المعمل</h2><p>تحت الإنشاء بالترتيب ده</p></div>
+  <ul class="upcoming">
+    <li><b>Full Table Scan vs Index Seek</b> · B-tree حقيقي و logical reads</li>
+    <li><b>Clustered / Non-clustered / Covering</b> · Key Lookup و INCLUDE</li>
+    <li><b>Execution Plan</b> · الـ tipping point و estimates</li>
+    <li><b>Transactions &amp; ACID</b> · الـ log وقطع الكهربا</li>
+    <li><b>Isolation Levels</b> · Dirty و Non-repeatable و Phantom</li>
+    <li><b>Locking / Blocking / Deadlock</b> · victim و 1205</li>
+    <li><b>N+1 في EF Core</b> · Include و AsSplitQuery</li>
+    <li><b>Connection Pool</b> · Max Pool Size و exhaustion</li>
+    <li><b>Normalization vs Denormalization</b></li>
+    <li><b>Replication &amp; Lag</b> · stale reads</li>
+    <li><b>Partitioning &amp; Sharding</b> · Hot Shard و Consistent Hashing</li>
+    <li><b>SQL vs NoSQL vs Time-series</b> · فين تتخزن نقط الـ GPS</li>
+  </ul>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section class="chapter" id="glossary">
+  <div class="chapter-head"><h2>القاموس السريع</h2><p>كل مصطلح ولينك للتجربة بتاعته</p></div>
+  <div class="gloss-wrap">
+    <table>
+      <thead><tr><th>المصطلح</th><th>المعنى</th><th>تشوفه فين</th></tr></thead>
+      <tbody>
+        <tr><td>Page</td><td>وحدة التخزين والقراءة في SQL Server: 8 KB</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Extent</td><td>8 صفحات متجاورة (64 KB)</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Page header</td><td>أول 96 byte في الصفحة: رقمها، ونوعها، والمساحة الفاضية فيها</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Slot array</td><td>2 bytes لكل صف في آخر الصفحة، وهو اللي بيحفظ ترتيب الصفوف</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Clustered key</td><td>الـ key اللي الصفوف نفسها مترتبة بيه</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Page Split</td><td>صفحة مليانة بتتقسم لاتنين عشان صف جديد يدخل في نصها</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>FILLFACTOR</td><td>نسبة امتلاء الصفحة وقت بناء الـ index أو الـ REBUILD</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Page density</td><td>متوسط امتلاء الصفحات (<code>avg_page_space_used_in_percent</code>)</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Logical fragmentation</td><td>نسبة الصفحات اللي الصفحة المنطقية بعدها مش جنبها على الديسك</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>REBUILD</td><td>إعادة كتابة الـ index من الأول بالترتيب وبالـ FILLFACTOR</td><td><a href="#lab-pages">الصفحات</a></td></tr>
+        <tr><td>Hot page / PAGELATCH</td><td>كل الكتابة رايحة لنفس الصفحة فالـ threads بتستنى بعض</td><td><a href="#lab-pages">الصفحات (أعمق)</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="chapter" id="related">
+  <div class="chapter-head"><h2>معامل مرتبطة</h2></div>
+  <div class="related">
+    <div><b>DSA · BST و Balanced Trees</b><span>الـ B-tree اللي تحت كل index هو شجرة balanced بصفحات بدل nodes. (قريبًا)</span></div>
+    <div><b>OS · Virtual Memory و Paging</b><span>نفس فكرة الصفحات، بس في الذاكرة بدل الديسك. (قريبًا)</span></div>
+    <div><b>System Design · Sharding</b><span>لما جدول واحد مش كفاية حتى بأحسن index. (قريبًا)</span></div>
+  </div>
+</section>
+
+<footer class="page-foot">الأرقام في المحاكاة مختارة عشان الفكرة تبان بالعين. أي سلوك اتبسّط مكتوب في «أعمق» تحت التجربة نفسها.</footer>
+</main>
+
+<script src="../../shared/helpers.js"></script>
+<script src="../../shared/engine.js"></script>
+<script src="sims/pages.js"></script>
+<script>Lab.boot()</script>
+</body>
+</html>
