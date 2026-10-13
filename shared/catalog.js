@@ -99,7 +99,7 @@
         L('socket', 'IP و Port و Socket', 'IP / Port / Socket / 4-tuple', 'labs/networking/socket.js'),
         L('nat', 'NAT', 'NAT / Mapping / Idle Timeout / Keepalive', 'labs/networking/nat.js'),
         L('dns', 'DNS Resolution', 'DNS / Resolver / TTL / Cache', 'labs/networking/dns.js'),
-        L('tls', 'HTTPS و TLS Handshake', 'HTTP / HTTPS / TLS'),
+        L('tls', 'HTTPS و TLS Handshake', 'HTTPS / TLS 1.2 / TLS 1.3 / 0-RTT', 'labs/networking/tls.js'),
         L('keepalive', 'Keep-Alive و Connection Pooling', 'Keep-Alive / Pooling'),
         L('websocket', 'WebSocket vs Polling', 'WebSocket / Polling'),
         L('bandwidth', 'Bandwidth و Latency', 'Bandwidth / Latency / Throughput'),
