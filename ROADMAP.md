@@ -7,7 +7,7 @@
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
-| 2. OS & Concurrency | `labs/os/` | 🚧 5 / 13 |
+| 2. OS & Concurrency | `labs/os/` | 🚧 6 / 13 |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
@@ -60,7 +60,7 @@
 - [x] `stack-heap` — Stack vs Heap
 - [x] `gc` — Garbage Collector في .NET (Gen 0/1/2، LOH)
 - [x] `paging` — Virtual Memory و Paging
-- [ ] `async-io` — Blocking vs Async I/O (مثال المطعم)
+- [x] `async-io` — Blocking vs Async I/O (مثال المطعم)
 - [ ] `threadpool` — Thread Pool و Starvation
 - [ ] `race` — Race Condition و Lock و Interlocked
 - [ ] `deadlock` — Deadlock
