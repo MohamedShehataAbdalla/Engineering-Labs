@@ -166,7 +166,7 @@
         L('cache', 'Caching', 'Cache-aside / TTL / LRU / Stampede', 'labs/system-design/cache.js'),
         L('cdn', 'CDN', 'CDN / Edge / Origin / Purge', 'labs/system-design/cdn.js'),
         L('mq', 'Message Queue و Backpressure', 'Queue / Ack / Idempotency / DLQ', 'labs/system-design/mq.js'),
-        L('cap', 'CAP و Eventual Consistency', 'CAP / Eventual Consistency'),
+        L('cap', 'CAP و Eventual Consistency', 'CAP / Partition / Eventual Consistency', 'labs/system-design/cap.js'),
         L('sync-events', 'Sync APIs vs Events', 'Sync / Events'),
         L('spof', 'Single Point of Failure', 'SPOF'),
         L('resilience', 'Timeout و Retry و Circuit Breaker', 'Timeout / Retry / Circuit Breaker'),
