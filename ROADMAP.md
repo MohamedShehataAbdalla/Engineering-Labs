@@ -7,7 +7,7 @@
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
-| 2. OS & Concurrency | `labs/os/` | 🚧 12 / 13 |
+| 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
@@ -67,7 +67,7 @@
 - [x] `semaphore` — Semaphore
 - [x] `fd` — File Descriptors وحد الـ connections
 - [x] `channels` — Producer/Consumer بـ Channels
-- [ ] قاموس + روابط
+- [x] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 3. Networking
 - [ ] `layers` — طبقات TCP/IP (التغليف وفك التغليف)
