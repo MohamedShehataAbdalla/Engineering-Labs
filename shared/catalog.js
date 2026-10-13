@@ -105,7 +105,7 @@
         L('bandwidth', 'Bandwidth و Latency', 'Bandwidth / Latency / Throughput / BDP', 'labs/networking/bandwidth.js'),
         L('rtt', 'RTT و Jitter', 'RTT / Jitter / RTO / Tail Latency', 'labs/networking/rtt.js'),
         L('framing', 'TCP Framing', 'Byte Stream / Delimiter / Length Prefix', 'labs/networking/framing.js'),
-        L('glossary', 'قاموس المعمل', 'Glossary')
+        L('glossary', 'قاموس المعمل', 'Glossary', 'labs/networking/glossary.js')
       ]
     },
     {

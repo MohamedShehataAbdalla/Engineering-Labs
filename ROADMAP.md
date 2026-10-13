@@ -8,7 +8,7 @@
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
-| 3. Networking | `labs/networking/` | 🚧 12 / 13 |
+| 3. Networking | `labs/networking/` | ✅ 13 / 13 |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
@@ -82,7 +82,7 @@
 - [x] `bandwidth` — Bandwidth و Latency و Throughput و Packet Loss
 - [x] `rtt` — RTT و Jitter
 - [x] `framing` — TCP Framing (رسايل الأجهزة بتوصل متقطعة أو لازقة في بعض)
-- [ ] قاموس + روابط
+- [x] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 5. System Design
 - [ ] `estimation` — Requirements و Back-of-the-envelope (حاسبة تفاعلية)
