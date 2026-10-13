@@ -9,7 +9,7 @@
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
 | 3. Networking | `labs/networking/` | ✅ 13 / 13 |
-| 5. System Design | `labs/system-design/` | 🚧 9 / 15 |
+| 5. System Design | `labs/system-design/` | 🚧 10 / 15 |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
 
@@ -94,7 +94,7 @@
 - [x] `cap` — CAP و Eventual Consistency
 - [x] `sync-events` — Sync APIs vs Events
 - [x] `spof` — Single Point of Failure
-- [ ] `resilience` — Timeout و Retry و Circuit Breaker
+- [x] `resilience` — Timeout و Retry و Circuit Breaker
 - [ ] `rate-limit` — Rate Limiting (Token Bucket)
 - [ ] `observability` — Observability (Logs, Metrics, Tracing, Alerts)
 - [ ] `jwt` — Auth بـ JWT
