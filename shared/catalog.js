@@ -70,7 +70,7 @@
         L('race', 'Race Condition و Lock', 'Race Condition / Lock / Interlocked / Atomic', 'labs/os/race.js'),
         L('deadlock', 'Deadlock', 'Deadlock / Wait-for Graph / Lock Ordering', 'labs/os/deadlock.js'),
         L('semaphore', 'Semaphore', 'Semaphore / SemaphoreSlim / Concurrency Limit', 'labs/os/semaphore.js'),
-        L('fd', 'File Descriptors', 'File Descriptors'),
+        L('fd', 'File Descriptors', 'File Descriptor / Socket / TIME_WAIT / ulimit', 'labs/os/fd.js'),
         L('channels', 'Producer/Consumer بـ Channels', 'Channels'),
         L('glossary', 'قاموس المعمل', 'Glossary')
       ]
