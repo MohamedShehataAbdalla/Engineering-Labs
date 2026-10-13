@@ -78,8 +78,22 @@
     {
       id: 'networking', num: '03', title: 'الشبكات', en: 'Networking',
       blurb: 'TCP vs UDP لأجهزة الـ GPS، والـ TLS Handshake، وWebSocket، وTCP Framing (الرسايل اللي بتوصل متقطعة أو لازقة في بعض).',
+      intro: `
+        <p>هنا الرسالة بتسيب السيرفر: <b>10,000 جهاز GPS</b> على شبكة موبايل (تأخير متغير، وpackets بتضيع، و NAT عند شركة الاتصالات) بيبعتوا لسيرفر في data center، وdashboard في المتصفح بيعرض العربيات لحظة بلحظة. كل تجربة فيها packets بتتبعت فعلًا في محاكاة: headers بتتحسب بالـ byte، وtimers بتشتغل، وpackets بتضيع وتتعاد، والأرقام محسوبة من اللي حصل.</p>
+        <div class="legend" aria-label="مفتاح الألوان">
+          <span><i style="background:var(--accent)"></i>packet رايح (request، داتا من الجهاز)</span>
+          <span><i style="background:var(--accent-2)"></i>رد راجع أو ACK أو وصل</span>
+          <span><i style="background:var(--violet)"></i>headers وcontrol: SYN، DNS، TLS</span>
+          <span><i style="background:var(--good)"></i>سريع: من غير round trips زيادة</span>
+          <span><i style="background:var(--bad)"></i>packet ضاع، timeout، أو انتظار</span>
+        </div>`,
+      related: [
+        ['os', 'OS · File Descriptors و Async I/O', 'كل connection = socket = descriptor، والانتظار على الشبكة هو اللي بيخلّي async مهم.'],
+        ['system-design', 'System Design · CDN و Load Balancer', 'لما الـ latency والـ round trips يبقوا جزء من تصميم أكبر.'],
+        ['dsa', 'DSA · Stack و Queue', 'الـ buffers في كل طبقة طوابير، وبتتملي بنفس الطريقة.']
+      ],
       lessons: [
-        L('layers', 'طبقات TCP/IP', 'TCP/IP Layers'),
+        L('layers', 'طبقات TCP/IP', 'TCP/IP Layers / Encapsulation / MTU', 'labs/networking/layers.js'),
         L('handshake', 'TCP 3-Way Handshake', '3-Way Handshake'),
         L('tcp-udp', 'TCP vs UDP', 'TCP / UDP'),
         L('socket', 'IP و Port و Socket', 'IP / Port / Socket'),
@@ -90,7 +104,8 @@
         L('websocket', 'WebSocket vs Polling', 'WebSocket / Polling'),
         L('bandwidth', 'Bandwidth و Latency', 'Bandwidth / Latency / Throughput'),
         L('rtt', 'RTT و Jitter', 'RTT / Jitter'),
-        L('framing', 'TCP Framing', 'TCP Framing')
+        L('framing', 'TCP Framing', 'TCP Framing'),
+        L('glossary', 'قاموس المعمل', 'Glossary')
       ]
     },
     {
