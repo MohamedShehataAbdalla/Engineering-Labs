@@ -45,8 +45,22 @@
     {
       id: 'os', num: '02', title: 'نظام التشغيل والتزامن', en: 'Operating System & Concurrency',
       blurb: 'Threads وThread Pool Starvation والـ GC في .NET، وRace Conditions، وDeadlock، وChannels.',
+      intro: `
+        <p>نفس السيناريو: سيرفر بيستقبل <b>1,000 رسالة GPS في الثانية</b>، وبيكتبها في قاعدة البيانات، وبيحدّث آخر مكان لكل عربية في الذاكرة. المعمل ده عن اللي بيحصل تحت الكود ده: مين بيشغّله (threads وcores)، الداتا بتتخزن فين (stack وheap وصفحات الذاكرة)، والـ threads بتتخانق إزاي على نفس الداتا. كل تجربة فيها scheduler أو lock أو GC صغير بيشتغل فعلًا، والأرقام اللي بتشوفها محسوبة منه.</p>
+        <div class="legend" aria-label="مفتاح الألوان">
+          <span><i style="background:var(--accent)"></i>شغل شغّال على الـ CPU دلوقتي</span>
+          <span><i style="background:var(--accent-2)"></i>شغل خلص، أو داتا متخزنة وشغالة</span>
+          <span><i style="background:var(--violet)"></i>thread تاني، أو lock، أو هيكل النظام</span>
+          <span><i style="background:var(--good)"></i>كويس: CPU مستغل، مفيش انتظار</span>
+          <span><i style="background:var(--bad)"></i>انتظار، أو تعارض، أو داتا ضاعت، أو crash</span>
+        </div>`,
+      related: [
+        ['dsa', 'DSA · Stack و Queue', 'الـ call stack هو Stack بالظبط، وطابور الـ thread pool هو Queue.'],
+        ['databases', 'Databases · Locking و Connection Pool', 'نفس الـ Locks والـ Deadlock والـ Pool، بس جوه SQL Server.'],
+        ['system-design', 'System Design · Message Queue و Backpressure', 'الـ Channel جوه process واحد هو نسخة صغيرة من RabbitMQ.']
+      ],
       lessons: [
-        L('process-thread', 'Process vs Thread', 'Process / Thread'),
+        L('process-thread', 'Process vs Thread', 'Process / Thread / Shared Memory / IPC', 'labs/os/process-thread.js'),
         L('scheduling', 'CPU Scheduling', 'Scheduling / Context Switch'),
         L('stack-heap', 'Stack vs Heap', 'Stack / Heap'),
         L('gc', 'Garbage Collector في .NET', 'GC / Gen 0-1-2 / LOH'),
@@ -57,7 +71,8 @@
         L('deadlock', 'Deadlock', 'Deadlock'),
         L('semaphore', 'Semaphore', 'Semaphore'),
         L('fd', 'File Descriptors', 'File Descriptors'),
-        L('channels', 'Producer/Consumer بـ Channels', 'Channels')
+        L('channels', 'Producer/Consumer بـ Channels', 'Channels'),
+        L('glossary', 'قاموس المعمل', 'Glossary')
       ]
     },
     {

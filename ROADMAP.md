@@ -7,7 +7,7 @@
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
-| 2. OS & Concurrency | `labs/os/` | ⏳ |
+| 2. OS & Concurrency | `labs/os/` | 🚧 1 / 13 |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
@@ -55,7 +55,7 @@
 - [x] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 2. Operating System & Concurrency
-- [ ] `process-thread` — Process vs Thread
+- [x] `process-thread` — Process vs Thread
 - [ ] `scheduling` — CPU Scheduling و Context Switch
 - [ ] `stack-heap` — Stack vs Heap
 - [ ] `gc` — Garbage Collector في .NET (Gen 0/1/2، LOH)
