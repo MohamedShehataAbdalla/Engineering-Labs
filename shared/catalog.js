@@ -96,7 +96,7 @@
         L('layers', 'طبقات TCP/IP', 'TCP/IP Layers / Encapsulation / MTU', 'labs/networking/layers.js'),
         L('handshake', 'TCP 3-Way Handshake', 'SYN / SYN-ACK / ACK / FIN', 'labs/networking/handshake.js'),
         L('tcp-udp', 'TCP vs UDP', 'TCP / UDP / Retransmission / Head-of-line', 'labs/networking/tcp-udp.js'),
-        L('socket', 'IP و Port و Socket', 'IP / Port / Socket'),
+        L('socket', 'IP و Port و Socket', 'IP / Port / Socket / 4-tuple', 'labs/networking/socket.js'),
         L('nat', 'NAT', 'NAT'),
         L('dns', 'DNS Resolution', 'DNS'),
         L('tls', 'HTTPS و TLS Handshake', 'HTTP / HTTPS / TLS'),
