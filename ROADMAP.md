@@ -8,7 +8,7 @@
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
-| 3. Networking | `labs/networking/` | 🚧 9 / 13 |
+| 3. Networking | `labs/networking/` | 🚧 10 / 13 |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
@@ -79,7 +79,7 @@
 - [x] `tls` — HTTP و HTTPS و TLS Handshake
 - [x] `keepalive` — Keep-Alive و Connection Pooling
 - [x] `websocket` — WebSocket vs Polling
-- [ ] `bandwidth` — Bandwidth و Latency و Throughput و Packet Loss
+- [x] `bandwidth` — Bandwidth و Latency و Throughput و Packet Loss
 - [ ] `rtt` — RTT و Jitter
 - [ ] `framing` — TCP Framing (رسايل الأجهزة بتوصل متقطعة أو لازقة في بعض)
 - [ ] قاموس + روابط
