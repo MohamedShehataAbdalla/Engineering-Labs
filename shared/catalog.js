@@ -168,7 +168,7 @@
         L('mq', 'Message Queue و Backpressure', 'Queue / Ack / Idempotency / DLQ', 'labs/system-design/mq.js'),
         L('cap', 'CAP و Eventual Consistency', 'CAP / Partition / Eventual Consistency', 'labs/system-design/cap.js'),
         L('sync-events', 'Sync APIs vs Events', 'Sync Calls / Events / Outbox', 'labs/system-design/sync-events.js'),
-        L('spof', 'Single Point of Failure', 'SPOF'),
+        L('spof', 'Single Point of Failure', 'SPOF / Redundancy / Availability / Nines', 'labs/system-design/spof.js'),
         L('resilience', 'Timeout و Retry و Circuit Breaker', 'Timeout / Retry / Circuit Breaker'),
         L('rate-limit', 'Rate Limiting', 'Rate Limiting / Token Bucket'),
         L('observability', 'Observability', 'Logs / Metrics / Tracing / Alerts'),
