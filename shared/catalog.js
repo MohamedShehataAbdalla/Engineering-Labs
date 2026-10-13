@@ -34,7 +34,7 @@
         L('binary-search', 'Binary Search', 'Binary Search / Sorted Array / lo-hi-mid', 'labs/dsa/binary-search.js'),
         L('sorting', 'Sorting', 'Insertion / Merge / Quick / Stable', 'labs/dsa/sorting.js'),
         L('bst', 'BST و Balanced Trees', 'BST / AVL / Rotation / Height', 'labs/dsa/bst.js'),
-        L('heap', 'Heap / Priority Queue', 'Heap / Priority Queue'),
+        L('heap', 'Heap / Priority Queue', 'Heap / Priority Queue / Sift Up / Sift Down', 'labs/dsa/heap.js'),
         L('graph', 'Graph: BFS و DFS', 'BFS / DFS'),
         L('dijkstra', 'Dijkstra: أقصر طريق', 'Dijkstra'),
         L('geo', 'Geohash / QuadTree', 'Geohash / QuadTree'),
