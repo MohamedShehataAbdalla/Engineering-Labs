@@ -63,7 +63,7 @@
         L('process-thread', 'Process vs Thread', 'Process / Thread / Shared Memory / IPC', 'labs/os/process-thread.js'),
         L('scheduling', 'CPU Scheduling', 'Scheduler / Time Slice / Context Switch', 'labs/os/scheduling.js'),
         L('stack-heap', 'Stack vs Heap', 'Stack / Heap / Value Type / Reference Type', 'labs/os/stack-heap.js'),
-        L('gc', 'Garbage Collector في .NET', 'GC / Gen 0-1-2 / LOH'),
+        L('gc', 'Garbage Collector في .NET', 'GC / Gen 0-1-2 / Promotion / LOH', 'labs/os/gc.js'),
         L('paging', 'Virtual Memory و Paging', 'Virtual Memory / Paging'),
         L('async-io', 'Blocking vs Async I/O', 'Blocking / Async I/O'),
         L('threadpool', 'Thread Pool و Starvation', 'Thread Pool / Starvation'),
