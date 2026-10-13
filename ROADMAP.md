@@ -6,7 +6,7 @@
 |---|---|---|
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
-| 1. DSA | `labs/dsa/` | 🚧 10 / 13 |
+| 1. DSA | `labs/dsa/` | 🚧 11 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ⏳ |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
@@ -50,7 +50,7 @@
 - [x] `heap` — Heap / Priority Queue
 - [x] `graph` — Graph: BFS و DFS
 - [x] `dijkstra` — Dijkstra (أقصر طريق لعربية على شبكة طرق)
-- [ ] `geo` — Geohash / QuadTree (أقرب 5 عربيات لنقطة)
+- [x] `geo` — Geohash / QuadTree (أقرب 5 عربيات لنقطة)
 - [ ] `window` — Two Pointers / Sliding Window
 - [ ] قاموس + روابط
 
