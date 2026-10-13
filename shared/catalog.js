@@ -28,7 +28,7 @@
       ],
       lessons: [
         L('big-o', 'Big-O بالعين', 'Big-O / O(1) / O(log n) / O(n²)', 'labs/dsa/big-o.js'),
-        L('array-list', 'Array vs Linked List', 'Array / Linked List'),
+        L('array-list', 'Array vs Linked List', 'Array / List<T> / Linked List / Cache Line', 'labs/dsa/array-list.js'),
         L('stack-queue', 'Stack و Queue', 'Stack / Queue'),
         L('hash', 'Hash Table و Collisions', 'Hash Table / Collisions'),
         L('binary-search', 'Binary Search', 'Binary Search'),
