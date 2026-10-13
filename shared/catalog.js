@@ -94,7 +94,7 @@
       ],
       lessons: [
         L('layers', 'طبقات TCP/IP', 'TCP/IP Layers / Encapsulation / MTU', 'labs/networking/layers.js'),
-        L('handshake', 'TCP 3-Way Handshake', '3-Way Handshake'),
+        L('handshake', 'TCP 3-Way Handshake', 'SYN / SYN-ACK / ACK / FIN', 'labs/networking/handshake.js'),
         L('tcp-udp', 'TCP vs UDP', 'TCP / UDP'),
         L('socket', 'IP و Port و Socket', 'IP / Port / Socket'),
         L('nat', 'NAT', 'NAT'),
