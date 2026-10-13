@@ -163,7 +163,7 @@
         L('estimation', 'Back-of-the-envelope', 'Requirements / QPS / Capacity Planning', 'labs/system-design/estimation.js'),
         L('lb', 'Load Balancer و Scaling', 'Load Balancer / Least Connections / Scaling', 'labs/system-design/lb.js'),
         L('stateless', 'Stateless vs Stateful', 'Stateless / Session / Sticky / Redis', 'labs/system-design/stateless.js'),
-        L('cache', 'Caching', 'Cache / Hit / Miss / TTL / LRU'),
+        L('cache', 'Caching', 'Cache-aside / TTL / LRU / Stampede', 'labs/system-design/cache.js'),
         L('cdn', 'CDN', 'CDN'),
         L('mq', 'Message Queue و Backpressure', 'Message Queue / Backpressure'),
         L('cap', 'CAP و Eventual Consistency', 'CAP / Eventual Consistency'),
