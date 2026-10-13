@@ -31,7 +31,7 @@
         L('array-list', 'Array vs Linked List', 'Array / List<T> / Linked List / Cache Line', 'labs/dsa/array-list.js'),
         L('stack-queue', 'Stack و Queue', 'Stack / Queue / LIFO / FIFO', 'labs/dsa/stack-queue.js'),
         L('hash', 'Hash Table و Collisions', 'Hash Table / Bucket / Collision / Load Factor', 'labs/dsa/hash.js'),
-        L('binary-search', 'Binary Search', 'Binary Search'),
+        L('binary-search', 'Binary Search', 'Binary Search / Sorted Array / lo-hi-mid', 'labs/dsa/binary-search.js'),
         L('sorting', 'Sorting', 'Sorting'),
         L('bst', 'BST و Balanced Trees', 'BST / Balanced Trees'),
         L('heap', 'Heap / Priority Queue', 'Heap / Priority Queue'),
