@@ -98,7 +98,7 @@
         L('tcp-udp', 'TCP vs UDP', 'TCP / UDP / Retransmission / Head-of-line', 'labs/networking/tcp-udp.js'),
         L('socket', 'IP و Port و Socket', 'IP / Port / Socket / 4-tuple', 'labs/networking/socket.js'),
         L('nat', 'NAT', 'NAT / Mapping / Idle Timeout / Keepalive', 'labs/networking/nat.js'),
-        L('dns', 'DNS Resolution', 'DNS'),
+        L('dns', 'DNS Resolution', 'DNS / Resolver / TTL / Cache', 'labs/networking/dns.js'),
         L('tls', 'HTTPS و TLS Handshake', 'HTTP / HTTPS / TLS'),
         L('keepalive', 'Keep-Alive و Connection Pooling', 'Keep-Alive / Pooling'),
         L('websocket', 'WebSocket vs Polling', 'WebSocket / Polling'),

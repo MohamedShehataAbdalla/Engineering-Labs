@@ -8,7 +8,7 @@
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
-| 3. Networking | `labs/networking/` | 🚧 5 / 13 |
+| 3. Networking | `labs/networking/` | 🚧 6 / 13 |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
@@ -75,7 +75,7 @@
 - [x] `tcp-udp` — TCP vs UDP (أجهزة GPS)
 - [x] `socket` — IP و Port و Socket
 - [x] `nat` — NAT
-- [ ] `dns` — DNS Resolution
+- [x] `dns` — DNS Resolution
 - [ ] `tls` — HTTP و HTTPS و TLS Handshake
 - [ ] `keepalive` — Keep-Alive و Connection Pooling
 - [ ] `websocket` — WebSocket vs Polling
