@@ -71,7 +71,7 @@
         L('deadlock', 'Deadlock', 'Deadlock / Wait-for Graph / Lock Ordering', 'labs/os/deadlock.js'),
         L('semaphore', 'Semaphore', 'Semaphore / SemaphoreSlim / Concurrency Limit', 'labs/os/semaphore.js'),
         L('fd', 'File Descriptors', 'File Descriptor / Socket / TIME_WAIT / ulimit', 'labs/os/fd.js'),
-        L('channels', 'Producer/Consumer بـ Channels', 'Channels'),
+        L('channels', 'Producer/Consumer بـ Channels', 'Channel<T> / Bounded / Backpressure', 'labs/os/channels.js'),
         L('glossary', 'قاموس المعمل', 'Glossary')
       ]
     },
