@@ -68,7 +68,7 @@
         L('async-io', 'Blocking vs Async I/O', 'Blocking I/O / async-await / Continuation', 'labs/os/async-io.js'),
         L('threadpool', 'Thread Pool و Starvation', 'Thread Pool / Starvation / sync-over-async', 'labs/os/threadpool.js'),
         L('race', 'Race Condition و Lock', 'Race Condition / Lock / Interlocked / Atomic', 'labs/os/race.js'),
-        L('deadlock', 'Deadlock', 'Deadlock'),
+        L('deadlock', 'Deadlock', 'Deadlock / Wait-for Graph / Lock Ordering', 'labs/os/deadlock.js'),
         L('semaphore', 'Semaphore', 'Semaphore'),
         L('fd', 'File Descriptors', 'File Descriptors'),
         L('channels', 'Producer/Consumer بـ Channels', 'Channels'),
