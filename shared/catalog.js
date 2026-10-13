@@ -145,8 +145,22 @@
     {
       id: 'system-design', num: '05', title: 'تصميم الأنظمة', en: 'System Design',
       blurb: 'Caching وMessage Queues وCAP وCircuit Breaker، والتجربة الختامية: صمّم نظام تتبع لـ 100 ألف عربية.',
+      intro: `
+        <p>هنا بنجمّع كل اللي فات: نظام تتبع كامل فيه أجهزة GPS، وسيرفرات ingest، وطوابير، وقاعدة بيانات، و cache، و dashboards، وتطبيق سواقين. كل تجربة بتشغّل نسخة صغيرة من النظام ده فعلًا: requests بتتوزع، و caches بتتملي وتنتهي، و services بتقع وتقوم، وأرقام الـ latency والـ availability محسوبة من اللي حصل في المحاكاة. والتجربة الأخيرة بتطلب منك تصمّم النظام بنفسك لـ 100 ألف عربية وتشوف التكلفة.</p>
+        <div class="legend" aria-label="مفتاح الألوان">
+          <span><i style="background:var(--accent)"></i>request أو رسالة رايحة</span>
+          <span><i style="background:var(--accent-2)"></i>رد ناجح، أو داتا في الـ cache، أو service سليمة</span>
+          <span><i style="background:var(--violet)"></i>البنية: load balancer، queue، replica، circuit breaker</span>
+          <span><i style="background:var(--good)"></i>كويس: hit، متاح، في الـ SLA</span>
+          <span><i style="background:var(--bad)"></i>فشل، أو miss مكلف، أو service واقعة، أو رفض</span>
+        </div>`,
+      related: [
+        ['databases', 'Databases · Replication و Sharding', 'الـ CAP والـ replicas هما نفس الـ Replication Lag، بس على مستوى النظام كله.'],
+        ['networking', 'Networking · Keep-Alive و RTT', 'كل سهم بين services هو round trip، وكل timeout مبني على الـ RTT.'],
+        ['os', 'OS · Channels و Semaphore', 'الـ Message Queue والـ Rate Limiter هما نفس الأفكار بين processes.']
+      ],
       lessons: [
-        L('estimation', 'Back-of-the-envelope', 'Requirements / Estimation'),
+        L('estimation', 'Back-of-the-envelope', 'Requirements / QPS / Capacity Planning', 'labs/system-design/estimation.js'),
         L('lb', 'Load Balancer و Scaling', 'Load Balancer / Scaling'),
         L('stateless', 'Stateless vs Stateful', 'Stateless / Stateful'),
         L('cache', 'Caching', 'Cache / Hit / Miss / TTL / LRU'),
@@ -159,7 +173,8 @@
         L('rate-limit', 'Rate Limiting', 'Rate Limiting / Token Bucket'),
         L('observability', 'Observability', 'Logs / Metrics / Tracing / Alerts'),
         L('jwt', 'Auth بـ JWT', 'JWT'),
-        L('capstone', 'صمّم نظام تتبع لـ 100 ألف عربية', 'Trade-offs')
+        L('capstone', 'صمّم نظام تتبع لـ 100 ألف عربية', 'Trade-offs'),
+        L('glossary', 'قاموس المعمل', 'Glossary')
       ]
     }
   ];
