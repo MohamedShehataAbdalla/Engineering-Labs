@@ -8,7 +8,7 @@
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
-| 3. Networking | `labs/networking/` | 🚧 2 / 13 |
+| 3. Networking | `labs/networking/` | 🚧 3 / 13 |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
@@ -72,7 +72,7 @@
 ## 3. Networking
 - [x] `layers` — طبقات TCP/IP (التغليف وفك التغليف)
 - [x] `handshake` — TCP 3-Way Handshake
-- [ ] `tcp-udp` — TCP vs UDP (أجهزة GPS)
+- [x] `tcp-udp` — TCP vs UDP (أجهزة GPS)
 - [ ] `socket` — IP و Port و Socket
 - [ ] `nat` — NAT
 - [ ] `dns` — DNS Resolution
