@@ -7,7 +7,7 @@
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
-| 2. OS & Concurrency | `labs/os/` | 🚧 2 / 13 |
+| 2. OS & Concurrency | `labs/os/` | 🚧 3 / 13 |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
@@ -57,7 +57,7 @@
 ## 2. Operating System & Concurrency
 - [x] `process-thread` — Process vs Thread
 - [x] `scheduling` — CPU Scheduling و Context Switch
-- [ ] `stack-heap` — Stack vs Heap
+- [x] `stack-heap` — Stack vs Heap
 - [ ] `gc` — Garbage Collector في .NET (Gen 0/1/2، LOH)
 - [ ] `paging` — Virtual Memory و Paging
 - [ ] `async-io` — Blocking vs Async I/O (مثال المطعم)
