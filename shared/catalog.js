@@ -38,7 +38,7 @@
         L('graph', 'Graph: BFS و DFS', 'Graph / BFS / DFS / Frontier', 'labs/dsa/graph.js'),
         L('dijkstra', 'Dijkstra: أقصر طريق', 'Dijkstra / Weighted Graph / A*', 'labs/dsa/dijkstra.js'),
         L('geo', 'Geohash / QuadTree', 'QuadTree / Geohash / k-Nearest / Spatial Index', 'labs/dsa/geo.js'),
-        L('window', 'Two Pointers / Sliding Window', 'Two Pointers / Sliding Window'),
+        L('window', 'Two Pointers / Sliding Window', 'Sliding Window / Two Pointers / Running Sum', 'labs/dsa/window.js'),
         L('glossary', 'قاموس المعمل', 'Glossary')
       ]
     },
