@@ -61,7 +61,7 @@
       ],
       lessons: [
         L('process-thread', 'Process vs Thread', 'Process / Thread / Shared Memory / IPC', 'labs/os/process-thread.js'),
-        L('scheduling', 'CPU Scheduling', 'Scheduling / Context Switch'),
+        L('scheduling', 'CPU Scheduling', 'Scheduler / Time Slice / Context Switch', 'labs/os/scheduling.js'),
         L('stack-heap', 'Stack vs Heap', 'Stack / Heap'),
         L('gc', 'Garbage Collector في .NET', 'GC / Gen 0-1-2 / LOH'),
         L('paging', 'Virtual Memory و Paging', 'Virtual Memory / Paging'),
