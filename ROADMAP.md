@@ -7,7 +7,7 @@
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
-| 2. OS & Concurrency | `labs/os/` | 🚧 9 / 13 |
+| 2. OS & Concurrency | `labs/os/` | 🚧 10 / 13 |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
 
@@ -64,7 +64,7 @@
 - [x] `threadpool` — Thread Pool و Starvation
 - [x] `race` — Race Condition و Lock و Interlocked
 - [x] `deadlock` — Deadlock
-- [ ] `semaphore` — Semaphore
+- [x] `semaphore` — Semaphore
 - [ ] `fd` — File Descriptors وحد الـ connections
 - [ ] `channels` — Producer/Consumer بـ Channels
 - [ ] قاموس + روابط
