@@ -161,7 +161,7 @@
       ],
       lessons: [
         L('estimation', 'Back-of-the-envelope', 'Requirements / QPS / Capacity Planning', 'labs/system-design/estimation.js'),
-        L('lb', 'Load Balancer و Scaling', 'Load Balancer / Scaling'),
+        L('lb', 'Load Balancer و Scaling', 'Load Balancer / Least Connections / Scaling', 'labs/system-design/lb.js'),
         L('stateless', 'Stateless vs Stateful', 'Stateless / Stateful'),
         L('cache', 'Caching', 'Cache / Hit / Miss / TTL / LRU'),
         L('cdn', 'CDN', 'CDN'),
