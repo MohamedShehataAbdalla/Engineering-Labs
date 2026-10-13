@@ -67,7 +67,7 @@
     ${o.caption ? '<p class="caption" aria-live="polite"></p>' : ''}
     ${o.controls && o.controls.length ? `<div class="controls">${o.controls.map(ctl).join('')}</div>` : ''}
     ${o.sim && o.stats !== false ? '<dl class="stats" data-stats></dl>' : ''}
-    <div class="explain">
+    <div class="explain explain-lesson">
       <div><h4>الفكرة</h4>${o.idea}</div>
       <div><h4>مثال من الواقع</h4>${o.real}${o.try ? `<p class="try">${o.try}</p>` : ''}${o.also ? `<p class="also">${o.also}</p>` : ''}</div>
       <div><h4>${o.netTitle || 'في .NET و SQL Server'}</h4>${o.net}</div>
@@ -125,6 +125,7 @@
       view = { title: 'خطأ', crumbs: [], html: `<section class="hero"><h1 tabindex="-1">حصلت مشكلة</h1><p>${esc(e.message)}</p><p><a href="#/">ارجع للرئيسية</a></p></section>` };
     }
     if (token !== renderToken) return;
+    document.body.classList.toggle('is-lesson', !!(lab && r.lesson));
     const m = main();
     m.innerHTML = view.html;
     document.title = view.title ? `${view.title} · Engineering Labs` : 'Engineering Labs';
@@ -133,6 +134,7 @@
     if (view.after) view.after(m);
     Lab.engine.mount(m);
     G.scrollTo(0, 0);
+    updateReadProgress();
     const h = m.querySelector('h1, h2.terms');
     if (h && routedOnce) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
     routedOnce = true;
@@ -143,18 +145,30 @@
   function viewHome() {
     const tiles = CAT.map(lab => {
       const p = labProgress(lab);
-      const status = p.total ? `<span class="status ${p.total === p.all ? 'live' : 'wip'}">${p.total} من ${p.all} تجربة جاهزة${p.done ? ` · خلّصت ${p.done}` : ''}</span>
-        <div class="progress" aria-hidden="true"><i style="width:${Math.round(p.done / p.all * 100)}%"></i></div>` : '<span class="status soon">قريبًا</span>';
-      return `<a class="lab-tile" href="#/${lab.id}">
+      const status = p.total
+        ? `<div class="progress" aria-hidden="true"><i style="width:${Math.round(p.done / p.all * 100)}%"></i></div>
+        <div class="tile-foot"><span class="status ${p.done && p.done === p.all ? 'done' : p.total === p.all ? 'live' : 'wip'}">${p.total} من ${p.all} تجربة جاهزة${p.done ? ` · خلّصت ${p.done}` : ''}</span><span class="go" aria-hidden="true">${p.done ? 'كمّل' : 'ابدأ'} ←</span></div>`
+        : `<div class="tile-foot"><span class="status soon">قريبًا · ${p.all} تجربة</span></div>`;
+      return `<a class="lab-tile${p.total ? ' is-live' : ''}" href="#/${lab.id}">
         <span class="num">${lab.num}</span>
         <h3>${lab.title}<span class="en">${lab.en}</span></h3>
         <p>${lab.blurb}</p>${status}</a>`;
     }).join('');
+    const all = CAT.reduce((a, lab) => { const p = labProgress(lab); a.total += p.total; a.all += p.all; a.done += p.done; return a; }, { total: 0, all: 0, done: 0 });
+    const next = sequence().find(x => x.lesson && !isDone(x.lab.id, x.lesson.id));
     return {
       title: '', crumbs: [], html: `
-<section class="hero">
+<section class="hero hero-home">
+  <span class="eyebrow">محاكاة حيّة · بالعربي · من الـ Junior للـ Senior</span>
   <h1 tabindex="-1">معامل هندسة البرمجيات: شوف <span class="en">the system</span> وهو بيشتغل</h1>
   <p>كل مفهوم هنا ليه تجربة حيّة. الـ rows والـ packets والـ threads بتتحرك قدامك، وأنت بتغيّر الأرقام وتشوف النظام بيتصرف إزاي. الأمثلة كلها من أنظمة حقيقية بحمل حقيقي، وأغلبها من <b>تتبع المركبات</b>: 10,000 جهاز GPS، كل جهاز بيبعت موقعه كل 10 ثواني.</p>
+  ${next ? `<p class="hero-cta"><a class="btn act" href="${next.href}">${all.done ? 'كمّل من' : 'ابدأ بـ'}: ${next.label}</a><span class="muted">${all.done ? `خلّصت ${all.done} من ${all.total} تجربة جاهزة` : 'مفيش تسجيل دخول، وتقدّمك بيتحفظ في المتصفح'}</span></p>` : ''}
+  <div class="kpis">
+    <div class="kpi"><b>${CAT.length}</b><span>معامل</span></div>
+    <div class="kpi"><b>${all.total}</b><span>تجربة جاهزة</span></div>
+    <div class="kpi"><b>${all.all}</b><span>تجربة في الخطة</span></div>
+    <div class="kpi"><b>${all.total ? Math.round(all.done / all.total * 100) : 0}%</b><span>خلّصت منهم</span></div>
+  </div>
   <p class="note">المعامل معمولة لكل المستويات. «الفكرة» و«جرّب» للي لسه بيبدأ، و«أعمق (للـ Senior)» فيها internals وأرقام إنتاج وأخطاء شائعة.</p>
 </section>
 <section class="chapter">
@@ -163,11 +177,11 @@
 </section>
 <section class="chapter">
   <div class="chapter-head"><h2>إزاي تستفيد من كل تجربة</h2></div>
-  <div class="explain" style="border-top:0">
-    <div><h4>1. اتفرج الأول</h4><p>سيب التجربة تشتغل بالأرقام الافتراضية واقرا «الفكرة». الألوان معناها ثابت في كل المعامل: البرتقالي رايح، والتركواز راجع أو خلص، والأحمر فشل أو ضاع.</p></div>
-    <div><h4>2. اكسرها</h4><p>نفّذ سطر «جرّب:» وراقب الأرقام الحيّة. الأرقام دي محسوبة من المحاكاة نفسها، مش مكتوبة ثابتة. زرار «إعادة» بيرجّع نفس السيناريو بالظبط، فتقدر تقارن قبل وبعد.</p></div>
-    <div><h4>3. اربطها بالكود</h4><p>عمود «في .NET» فيه الكود اللي بيعمل نفس السلوك في الإنتاج. و«أعمق» فيها اللي بيفرق بين حد عارف المصطلح وحد فاهم بيحصل إيه تحته. ولما تخلّص تجربة علّم عليها «خلّصتها».</p></div>
-  </div>
+  <ol class="steps">
+    <li><span class="step-n">1</span><h4>اتفرج الأول</h4><p>سيب التجربة تشتغل بالأرقام الافتراضية واقرا «الفكرة». الألوان معناها ثابت في كل المعامل: البرتقالي رايح، والتركواز راجع أو خلص، والأحمر فشل أو ضاع.</p></li>
+    <li><span class="step-n">2</span><h4>اكسرها</h4><p>نفّذ سطر «جرّب:» وراقب الأرقام الحيّة. الأرقام دي محسوبة من المحاكاة نفسها، مش مكتوبة ثابتة. زرار «إعادة» بيرجّع نفس السيناريو بالظبط، فتقدر تقارن قبل وبعد.</p></li>
+    <li><span class="step-n">3</span><h4>اربطها بالكود</h4><p>عمود «في .NET» فيه الكود اللي بيعمل نفس السلوك في الإنتاج. و«أعمق» فيها اللي بيفرق بين حد عارف المصطلح وحد فاهم بيحصل إيه تحته. ولما تخلّص تجربة علّم عليها «خلّصتها».</p></li>
+  </ol>
   <p class="note" style="margin-top:18px">نفس المفاهيم بتتكرر في منصات التوصيل، والـ IoT والمدن الذكية، وبوابات الدفع والبنوك والتداول، والاتصالات والفوترة، واللوجستيات، والشات، والألعاب الجماعية، والبث المباشر.</p>
 </section>
 <footer class="page-foot">الحركة في كل المعامل متبطّأة عشان العين تلحقها. في الإنتاج الأزمنة بالـ ms والأعداد بالآلاف، لكن السلوك هو هو.</footer>`
@@ -178,9 +192,10 @@
     const p = labProgress(lab);
     const items = lab.lessons.map((x, i) => {
       const n = String(i + 1).padStart(2, '0');
-      const tag = !x.file ? '<span class="status soon">قريبًا</span>' : isDone(lab.id, x.id) ? '<span class="status live">✓ خلّصتها</span>' : '';
-      const inner = `<span class="num">${n}</span><b>${x.title}</b><span class="en">${esc(x.terms)}</span>${tag}`;
-      return x.file ? `<li><a class="lesson-row" href="#/${lab.id}/${x.id}">${inner}</a></li>` : `<li><div class="lesson-row soon" aria-disabled="true">${inner}</div></li>`;
+      const d = x.file && isDone(lab.id, x.id);
+      const tag = !x.file ? '<span class="status soon">قريبًا</span>' : d ? '<span class="status done">✓ خلّصتها</span>' : '<span class="go" aria-hidden="true">←</span>';
+      const inner = `<span class="num">${d ? '✓' : n}</span><b>${x.title}</b><span class="en">${esc(x.terms)}</span>${tag}`;
+      return x.file ? `<li><a class="lesson-row${d ? ' is-done' : ''}" href="#/${lab.id}/${x.id}">${inner}</a></li>` : `<li><div class="lesson-row soon" aria-disabled="true">${inner}</div></li>`;
     }).join('');
     const rel = (lab.related || []).map(([id, t, d]) => {
       const target = labById(id), live = target && built(target).length;
@@ -210,14 +225,15 @@ ${rel ? `<section class="chapter"><div class="chapter-head"><h2>معامل مر�
     const prev = seq[i - 1], next = seq[i + 1];
     const idx = lab.lessons.indexOf(meta) + 1;
     const doneNow = isDone(lab.id, meta.id);
-    const navLink = (x, dir) => x ? `<a class="pager-${dir}" href="${x.href}"><span>${dir === 'prev' ? '→ السابق' : 'التالي ←'}</span><b>${x.label}</b>${x.lesson && x.lab.id !== lab.id ? `<i>معمل ${x.lab.title}</i>` : ''}</a>` : '<span></span>';
+    const navLink = (x, dir) => x ? `<a class="pager-${dir}" href="${x.href}"><span>${dir === 'prev' ? '<kbd>→</kbd> السابق' : 'التالي <kbd>←</kbd>'}</span><b>${x.label}</b>${x.lesson && x.lab.id !== lab.id ? `<i>معمل ${x.lab.title}</i>` : ''}</a>` : '<span></span>';
     return {
       title: meta.title, crumbs: [[lab.title, `#/${lab.id}`], [meta.title, `#/${lab.id}/${meta.id}`]], html: `
-<p class="lesson-kicker">تجربة ${idx} من ${lab.lessons.length} · معمل ${lab.title}</p>
+<p class="lesson-kicker"><span class="pill">تجربة ${idx} من ${lab.lessons.length}</span><a href="#/${lab.id}">معمل ${lab.title}</a></p>
 ${lesson.html}
 <div class="lesson-foot">
   <button type="button" class="done-btn" aria-pressed="${doneNow}">${doneNow ? '✓ خلّصتها' : 'علّم إنك خلّصتها'}</button>
   <nav class="pager" aria-label="التنقل بين التجارب">${navLink(prev, 'prev')}${navLink(next, 'next')}</nav>
+  <p class="kbd-hint">تقدر تتنقل بين التجارب بأسهم الكيبورد <kbd>→</kbd> <kbd>←</kbd></p>
 </div>`,
       after(m) {
         const b = m.querySelector('.done-btn');
@@ -253,13 +269,14 @@ ${lesson.html}
   const expanded = {};
   function renderSidebar(r) {
     const side = document.getElementById('side-nav');
-    side.innerHTML = CAT.map(lab => {
+    side.innerHTML = '<p class="side-cap">المعامل</p>' + CAT.map(lab => {
       const p = labProgress(lab), open = !!expanded[lab.id], cur = r.lab === lab.id;
       const pct = p.all ? Math.round(p.done / p.all * 100) : 0;
-      const items = lab.lessons.map(x => {
+      const items = lab.lessons.map((x, i) => {
         const active = cur && r.lesson === x.id, d = isDone(lab.id, x.id);
-        if (!x.file) return `<li><span class="side-item soon" aria-disabled="true">${x.title}<em>قريبًا</em></span></li>`;
-        return `<li><a class="side-item${active ? ' active' : ''}" href="#/${lab.id}/${x.id}"${active ? ' aria-current="page"' : ''}>${d ? '<i class="tick" aria-label="خلّصتها">✓</i>' : ''}${x.title}</a></li>`;
+        const n = `<span class="n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>`;
+        if (!x.file) return `<li><span class="side-item soon" aria-disabled="true">${n}${x.title}<em>قريبًا</em></span></li>`;
+        return `<li><a class="side-item${active ? ' active' : ''}" href="#/${lab.id}/${x.id}"${active ? ' aria-current="page"' : ''}>${d ? '<i class="tick" aria-label="خلّصتها">✓</i>' : ''}${n}${x.title}</a></li>`;
       }).join('');
       return `<div class="side-lab${cur ? ' current' : ''}">
         <div class="side-head">
@@ -283,6 +300,27 @@ ${lesson.html}
     if (again) again.focus();
   }
 
+  /* thin bar under the top bar: how far you are in a long lesson */
+  let progBar = null, progQueued = false;
+  function updateReadProgress() {
+    progQueued = false;
+    if (!progBar) return;
+    const max = document.documentElement.scrollHeight - G.innerHeight;
+    progBar.style.transform = `scaleX(${max > 0 ? Math.min(1, G.scrollY / max) : 0})`;
+  }
+  function onScroll() { if (!progQueued) { progQueued = true; G.requestAnimationFrame(updateReadProgress); } }
+
+  /* ← / → move between lessons (RTL: left = next), unless the user is typing or on a control */
+  function onKey(e) {
+    if (e.key === 'Escape') { closeDrawer(); return; }
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
+    const t = e.target;
+    if (t && t.closest && t.closest('input, select, textarea, button, [contenteditable], .seg, pre, .gloss-wrap')) return;
+    const a = document.querySelector(e.key === 'ArrowLeft' ? '.pager-next' : '.pager-prev');
+    if (a && a.href) { e.preventDefault(); location.hash = a.getAttribute('href'); }
+  }
+
   function openDrawer() { document.body.classList.add('drawer-open'); document.querySelector('.menu-btn').setAttribute('aria-expanded', 'true'); }
   function closeDrawer() { document.body.classList.remove('drawer-open'); const b = document.querySelector('.menu-btn'); if (b) b.setAttribute('aria-expanded', 'false'); }
 
@@ -292,7 +330,10 @@ ${lesson.html}
       document.getElementById('side-nav').addEventListener('click', onSideClick);
       document.querySelector('.menu-btn').addEventListener('click', () => document.body.classList.contains('drawer-open') ? closeDrawer() : openDrawer());
       document.querySelector('.scrim').addEventListener('click', closeDrawer);
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+      document.addEventListener('keydown', onKey);
+      progBar = document.querySelector('.read-prog i');
+      G.addEventListener('scroll', onScroll, { passive: true });
+      G.addEventListener('resize', onScroll, { passive: true });
       G.addEventListener('hashchange', route);
       route();
     },

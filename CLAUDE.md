@@ -99,6 +99,8 @@ loop واحد، IntersectionObserver (التجربة المخفية متتحرك
 - الصفحة كلها **RTL** و `lang="ar"`. بلوكات الكود والأرقام والمصطلحات **LTR** (`direction:ltr` + `unicode-bidi:isolate`).
 - Light و Dark mode بالـ tokens بس. **ممنوع لون hardcoded** في CSS أو في sim:
   `--bg --surface --sunk --ink --muted --line --accent --accent-2 --violet --good --bad`
+- الـ tokens دي الـ canvas بيقراها (`s.C`). للـ UI بس فيه tokens مشتقة منها بـ `color-mix()` في `theme.css`: `--hair` (borders)، `--raise` (خلفية toolbar/controls)، `--accent-soft --a2-soft --violet-soft --good-soft --bad-soft` (خلفيات خفيفة)، `--shadow-1 --shadow-2`. متستخدمهاش جوه sim.
+- التنقل بين التجارب بالكيبورد: `←` التالية و `→` السابقة (`app.js` → `onKey`)، وبيتجاهل الأسهم لو الفوكس على control.
 
 | اللون | المعنى (ثابت في كل المعامل) |
 |---|---|
