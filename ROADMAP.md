@@ -6,7 +6,7 @@
 |---|---|---|
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
-| 1. DSA | `labs/dsa/` | 🚧 5 / 13 |
+| 1. DSA | `labs/dsa/` | 🚧 6 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ⏳ |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
@@ -45,7 +45,7 @@
 - [x] `stack-queue` — Stack و Queue
 - [x] `hash` — Hash Table و Collisions (جوه `Dictionary`)
 - [x] `binary-search` — Binary Search
-- [ ] `sorting` — Sorting (مقارنة بين أكتر من خوارزمية)
+- [x] `sorting` — Sorting (مقارنة بين أكتر من خوارزمية)
 - [ ] `bst` — BST و Balanced Trees
 - [ ] `heap` — Heap / Priority Queue
 - [ ] `graph` — Graph: BFS و DFS
