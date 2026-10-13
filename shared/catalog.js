@@ -66,7 +66,7 @@
         L('gc', 'Garbage Collector في .NET', 'GC / Gen 0-1-2 / Promotion / LOH', 'labs/os/gc.js'),
         L('paging', 'Virtual Memory و Paging', 'Virtual Memory / Page Fault / LRU / Thrashing', 'labs/os/paging.js'),
         L('async-io', 'Blocking vs Async I/O', 'Blocking I/O / async-await / Continuation', 'labs/os/async-io.js'),
-        L('threadpool', 'Thread Pool و Starvation', 'Thread Pool / Starvation'),
+        L('threadpool', 'Thread Pool و Starvation', 'Thread Pool / Starvation / sync-over-async', 'labs/os/threadpool.js'),
         L('race', 'Race Condition و Lock', 'Race Condition / Lock / Interlocked'),
         L('deadlock', 'Deadlock', 'Deadlock'),
         L('semaphore', 'Semaphore', 'Semaphore'),
