@@ -39,7 +39,7 @@
         L('dijkstra', 'Dijkstra: أقصر طريق', 'Dijkstra / Weighted Graph / A*', 'labs/dsa/dijkstra.js'),
         L('geo', 'Geohash / QuadTree', 'QuadTree / Geohash / k-Nearest / Spatial Index', 'labs/dsa/geo.js'),
         L('window', 'Two Pointers / Sliding Window', 'Sliding Window / Two Pointers / Running Sum', 'labs/dsa/window.js'),
-        L('glossary', 'قاموس المعمل', 'Glossary')
+        L('glossary', 'قاموس المعمل', 'Glossary', 'labs/dsa/glossary.js')
       ]
     },
     {

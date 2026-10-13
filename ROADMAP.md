@@ -6,7 +6,7 @@
 |---|---|---|
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
-| 1. DSA | `labs/dsa/` | 🚧 12 / 13 |
+| 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ⏳ |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
@@ -52,7 +52,7 @@
 - [x] `dijkstra` — Dijkstra (أقصر طريق لعربية على شبكة طرق)
 - [x] `geo` — Geohash / QuadTree (أقرب 5 عربيات لنقطة)
 - [x] `window` — Two Pointers / Sliding Window
-- [ ] قاموس + روابط
+- [x] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 2. Operating System & Concurrency
 - [ ] `process-thread` — Process vs Thread
