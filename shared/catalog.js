@@ -103,7 +103,7 @@
         L('keepalive', 'Keep-Alive و Connection Pooling', 'Keep-Alive / Connection Pool / HTTP/2', 'labs/networking/keepalive.js'),
         L('websocket', 'WebSocket vs Polling', 'Polling / Long Polling / WebSocket / SignalR', 'labs/networking/websocket.js'),
         L('bandwidth', 'Bandwidth و Latency', 'Bandwidth / Latency / Throughput / BDP', 'labs/networking/bandwidth.js'),
-        L('rtt', 'RTT و Jitter', 'RTT / Jitter'),
+        L('rtt', 'RTT و Jitter', 'RTT / Jitter / RTO / Tail Latency', 'labs/networking/rtt.js'),
         L('framing', 'TCP Framing', 'TCP Framing'),
         L('glossary', 'قاموس المعمل', 'Glossary')
       ]
