@@ -33,7 +33,7 @@
         L('hash', 'Hash Table و Collisions', 'Hash Table / Bucket / Collision / Load Factor', 'labs/dsa/hash.js'),
         L('binary-search', 'Binary Search', 'Binary Search / Sorted Array / lo-hi-mid', 'labs/dsa/binary-search.js'),
         L('sorting', 'Sorting', 'Insertion / Merge / Quick / Stable', 'labs/dsa/sorting.js'),
-        L('bst', 'BST و Balanced Trees', 'BST / Balanced Trees'),
+        L('bst', 'BST و Balanced Trees', 'BST / AVL / Rotation / Height', 'labs/dsa/bst.js'),
         L('heap', 'Heap / Priority Queue', 'Heap / Priority Queue'),
         L('graph', 'Graph: BFS و DFS', 'BFS / DFS'),
         L('dijkstra', 'Dijkstra: أقصر طريق', 'Dijkstra'),
