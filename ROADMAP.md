@@ -9,7 +9,7 @@
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
 | 3. Networking | `labs/networking/` | ✅ 13 / 13 |
-| 5. System Design | `labs/system-design/` | 🚧 2 / 15 |
+| 5. System Design | `labs/system-design/` | 🚧 3 / 15 |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
 
@@ -87,7 +87,7 @@
 ## 5. System Design
 - [x] `estimation` — Requirements و Back-of-the-envelope (حاسبة تفاعلية)
 - [x] `lb` — Load Balancer و Horizontal/Vertical Scaling
-- [ ] `stateless` — Stateless vs Stateful (الـ session في Redis)
+- [x] `stateless` — Stateless vs Stateful (الـ session في Redis)
 - [ ] `cache` — Caching (Hit/Miss/TTL/LRU)
 - [ ] `cdn` — CDN
 - [ ] `mq` — Message Queue و Backpressure
