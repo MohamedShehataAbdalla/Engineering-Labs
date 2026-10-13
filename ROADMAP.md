@@ -9,7 +9,7 @@
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
 | 3. Networking | `labs/networking/` | ✅ 13 / 13 |
-| 5. System Design | `labs/system-design/` | 🚧 12 / 15 |
+| 5. System Design | `labs/system-design/` | 🚧 13 / 15 |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
 
@@ -97,6 +97,6 @@
 - [x] `resilience` — Timeout و Retry و Circuit Breaker
 - [x] `rate-limit` — Rate Limiting (Token Bucket)
 - [x] `observability` — Observability (Logs, Metrics, Tracing, Alerts)
-- [ ] `jwt` — Auth بـ JWT
+- [x] `jwt` — Auth بـ JWT
 - [ ] `capstone` — صمّم نظام تتبع لـ 100 ألف عربية (Trade-offs: Latency و Availability والتكلفة)
 - [ ] قاموس + روابط

@@ -172,7 +172,7 @@
         L('resilience', 'Timeout و Retry و Circuit Breaker', 'Timeout / Retry / Backoff / Circuit Breaker', 'labs/system-design/resilience.js'),
         L('rate-limit', 'Rate Limiting', 'Fixed / Sliding Window / Token Bucket', 'labs/system-design/rate-limit.js'),
         L('observability', 'Observability', 'Metrics / Logs / Tracing / Alerts', 'labs/system-design/observability.js'),
-        L('jwt', 'Auth بـ JWT', 'JWT'),
+        L('jwt', 'Auth بـ JWT', 'JWT / Refresh Token / Revocation', 'labs/system-design/jwt.js'),
         L('capstone', 'صمّم نظام تتبع لـ 100 ألف عربية', 'Trade-offs'),
         L('glossary', 'قاموس المعمل', 'Glossary')
       ]
