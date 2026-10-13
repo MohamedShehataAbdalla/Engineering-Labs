@@ -12,8 +12,22 @@
     {
       id: 'dsa', num: '01', title: 'الـ Data Structures والخوارزميات', en: 'Data Structures & Algorithms',
       blurb: 'Big-O بالعين، والـ Hash Table اللي جوه <code>Dictionary</code>، وDijkstra لأقصر طريق، وأقرب 5 عربيات لنقطة.',
+      intro: `
+        <p>نفس السيناريو: <b>10,000 عربية</b> بتبعت موقعها كل 10 ثواني. هنا السؤال مش «الداتا متخزنة فين»، السؤال «هتدوّر فيها إزاي». كل تجربة بتشغّل الخوارزمية الحقيقية على داتا حقيقية وبتعدّ الخطوات اللي اتعملت فعلًا: مقارنات، نقل عناصر، قفزات pointers. والكود في كل تجربة بالـ collections اللي بتستخدمها في .NET كل يوم.</p>
+        <div class="legend" aria-label="مفتاح الألوان">
+          <span><i style="background:var(--accent)"></i>الخطوة الحالية: العنصر اللي بيتقارن أو بيتنقل</span>
+          <span><i style="background:var(--accent-2)"></i>عنصر متخزن، أو لقيناه، أو خلص</span>
+          <span><i style="background:var(--violet)"></i>الهيكل نفسه: pointer، bucket، index</span>
+          <span><i style="background:var(--good)"></i>رخيص: خطوات قليلة</span>
+          <span><i style="background:var(--bad)"></i>مكلف: collision، scan، خطوات كتير</span>
+        </div>`,
+      related: [
+        ['databases', 'Databases · B-Tree Index', 'الـ BST الـ balanced هو نفس فكرة الـ B-tree، بس بصفحات 8 KB بدل nodes.'],
+        ['os', 'OS · Stack vs Heap و Channels', 'الـ Stack والـ Queue هما نفسهم الـ call stack والـ producer/consumer.'],
+        ['system-design', 'System Design · Caching و Rate Limiting', 'الـ Hash Table تحت كل cache، والـ Sliding Window تحت كل rate limiter.']
+      ],
       lessons: [
-        L('big-o', 'Big-O بالعين', 'Big-O'),
+        L('big-o', 'Big-O بالعين', 'Big-O / O(1) / O(log n) / O(n²)', 'labs/dsa/big-o.js'),
         L('array-list', 'Array vs Linked List', 'Array / Linked List'),
         L('stack-queue', 'Stack و Queue', 'Stack / Queue'),
         L('hash', 'Hash Table و Collisions', 'Hash Table / Collisions'),
@@ -24,7 +38,8 @@
         L('graph', 'Graph: BFS و DFS', 'BFS / DFS'),
         L('dijkstra', 'Dijkstra: أقصر طريق', 'Dijkstra'),
         L('geo', 'Geohash / QuadTree', 'Geohash / QuadTree'),
-        L('window', 'Two Pointers / Sliding Window', 'Two Pointers / Sliding Window')
+        L('window', 'Two Pointers / Sliding Window', 'Two Pointers / Sliding Window'),
+        L('glossary', 'قاموس المعمل', 'Glossary')
       ]
     },
     {

@@ -6,7 +6,7 @@
 |---|---|---|
 | البنية المشتركة (SPA) | `index.html` + `shared/` | ✅ |
 | 4. Databases | `labs/databases/` | ✅ 14 / 14 |
-| 1. DSA | `labs/dsa/` | ⏳ |
+| 1. DSA | `labs/dsa/` | 🚧 1 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ⏳ |
 | 3. Networking | `labs/networking/` | ⏳ |
 | 5. System Design | `labs/system-design/` | ⏳ |
@@ -40,7 +40,7 @@
 - [x] `glossary` — قاموس المعمل + روابط المعامل المرتبطة
 
 ## 1. Data Structures & Algorithms
-- [ ] `big-o` — Big-O بالعين (عدد الخطوات وهو بيكبر)
+- [x] `big-o` — Big-O بالعين (عدد الخطوات وهو بيكبر)
 - [ ] `array-list` — Array vs Linked List
 - [ ] `stack-queue` — Stack و Queue
 - [ ] `hash` — Hash Table و Collisions (جوه `Dictionary`)
