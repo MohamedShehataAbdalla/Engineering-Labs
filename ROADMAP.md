@@ -9,7 +9,7 @@
 | 1. DSA | `labs/dsa/` | ✅ 13 / 13 |
 | 2. OS & Concurrency | `labs/os/` | ✅ 13 / 13 |
 | 3. Networking | `labs/networking/` | ✅ 13 / 13 |
-| 5. System Design | `labs/system-design/` | 🚧 5 / 15 |
+| 5. System Design | `labs/system-design/` | 🚧 6 / 15 |
 
 > ترتيب المذاكرة: 1 → 5. ترتيب البناء: Databases الأول.
 
@@ -90,7 +90,7 @@
 - [x] `stateless` — Stateless vs Stateful (الـ session في Redis)
 - [x] `cache` — Caching (Hit/Miss/TTL/LRU)
 - [x] `cdn` — CDN
-- [ ] `mq` — Message Queue و Backpressure
+- [x] `mq` — Message Queue و Backpressure
 - [ ] `cap` — CAP و Eventual Consistency
 - [ ] `sync-events` — Sync APIs vs Events
 - [ ] `spof` — Single Point of Failure
